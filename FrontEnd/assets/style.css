@@ -28,6 +28,12 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+:root {
+	--primary-color: #1D6154;
+	--secondary-color: #B1663C;
+	--main-backgroun: #FFFEF8;
+	--main-black: #000000;
+}
 body {
 	line-height: 1;
 }
@@ -52,7 +58,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
-	background-color: #FFFEF8;
+	background-color: var(--main-background);
 	min-height: 100vh;
 }
 header {
@@ -84,7 +90,7 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: var(--primary-color)
 }
 nav ul {
 	display: flex;
@@ -178,7 +184,7 @@ input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
-	background-color: #1D6154;
+	background-color: var(--primary-color);
 	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
@@ -227,5 +233,5 @@ footer nav ul {
 	height: 36px;
 }
 #forgottenPassword {
-	color: #000000;
+	color: var(--main-black);
 }
