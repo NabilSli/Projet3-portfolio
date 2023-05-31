@@ -41,6 +41,7 @@ form.addEventListener("submit", async (event) => {
   const body = JSON.stringify(bodyData);
   // NOTE: ask backend server if this email and password combination is known and to return token if so
   // https://developer.mozilla.org/fr/docs/Web/API/Response
+
   const responseObject = await fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     // NOTE: ressource type i will be sending

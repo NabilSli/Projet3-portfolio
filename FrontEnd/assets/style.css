@@ -31,7 +31,7 @@ footer, header, hgroup, menu, nav, section {
 :root {
 	--primary-color: #1D6154;
 	--secondary-color: #B1663C;
-	--main-backgroun: #FFFEF8;
+	--main-background: #FFFEF8;
 	--main-black: #000000;
 }
 body {
@@ -206,12 +206,8 @@ footer nav ul {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-} 
-#login form {
 	text-align: left;
-	display: flex;
-	flex-direction: column;
-}
+} 
 .loginForm {
 	margin: 0;
 }
@@ -221,6 +217,10 @@ footer nav ul {
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.loginInput {
+	display: flex;
+	flex-direction: column;
 }
 #login label {
 	margin: 2em 0 1em 0;
@@ -234,4 +234,5 @@ footer nav ul {
 }
 #forgottenPassword {
 	color: var(--main-black);
+	font-weight: 500;
 }
