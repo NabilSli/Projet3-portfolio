@@ -3,42 +3,55 @@ const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("pass");
 const errorMessage = document.getElementById("errorMessage");
 
+const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(form);
-  // NOTE: genere un obj ac les donne du formulaire
-  const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+  const email = formData.get("email");
+  const password = formData.get("password");
 
   let hasError = false;
-  // NOTE: si le test ne passe pas on choisi ce que l'on renvoie ici
-  if (!emailRegex.test(formData.get("email"))) {
+  // NOTE: check email validity
+  if (!emailRegex.test(email)) {
     emailInput.style.border = "1px solid red";
     hasError = true;
   } else {
     emailInput.style.border = "initial";
   }
 
-  if (!formData.get("password")) {
+  // NOTE: check password validity
+  if (!password) {
     passwordInput.style.border = "1px solid red";
     hasError = true;
   } else {
     passwordInput.style.border = "initial";
   }
-  // NOTE:
+
+  // NOTE: skip submiting form if there is an error
   if (hasError) {
+    // NOTE: resume function (act like a "break" in a loop)
     return;
   }
 
-  const response = await fetch("http://localhost:5678/api/users/login", {
+  const bodyData = {
+    email,
+    password,
+  };
+  const body = JSON.stringify(bodyData);
+  // NOTE: ask backend server if this email and password combination is known and to return token if so
+  // https://developer.mozilla.org/fr/docs/Web/API/Response
+  const responseObject = await fetch("http://localhost:5678/api/users/login", {
     method: "POST",
+    // NOTE: ressource type i will be sending
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      email: formData.get("email"),
-      password: formData.get("password"),
-    }),
-  }).then((res) => res.json());
+    // NOTE: send a json string
+    body,
+  });
+  // NOTE: transorms the body in an js object
+  const response = await responseObject.json();
 
   const userToken = response.token;
   if (!userToken) {
