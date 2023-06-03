@@ -2,10 +2,11 @@ const form = document.getElementById("login");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("pass");
 const errorMessage = document.getElementById("errorMessage");
-
+// NOTE: minimum requisit to met to be considered an email, used to verify email field
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
 form.addEventListener("submit", async (event) => {
+  // NOTE: block refreshing the page when submit, it's default behavior
   event.preventDefault();
   const formData = new FormData(form);
   const email = formData.get("email");
