@@ -1,5 +1,5 @@
 // NOTE: CALLBACK HELL
-//function fetchWorkData2(callback) {
+// function fetchWorkData2(callback) {
 //   fetch("http://localhost:5678/api/works/", {
 //    method: "get",
 //  }).then((responseWorkData2) => {
@@ -7,7 +7,7 @@
 //      callback(response)
 //    })
 //  })
-//}
+// }
 // fetchWorkData2((response) => {
 //   console.log(response)
 // })
@@ -35,6 +35,7 @@ async function displayWork() {
   if (!works) {
     return console.error("L'api n'est pas accessible");
   }
+
   // NOTE: empties the html from the index page
   worksContainer.innerHTML = "";
 
