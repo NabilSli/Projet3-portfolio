@@ -27,7 +27,7 @@ async function fetchWorkData() {
 
 async function displayWork() {
   // NOTE: call the css element from hte html base as parent for the html replacement
-  let worksContainer = document.querySelector(".gallery");
+  const worksContainer = document.querySelector(".gallery");
   // NOTE: put a text message while the js is executing
   worksContainer.innerHTML = "loading ...";
 
