@@ -11,7 +11,7 @@ form.addEventListener("submit", async (event) => {
   const formData = new FormData(form);
   const email = formData.get("email");
   const password = formData.get("password");
-
+  // NOTE: use this variable to check for error
   let hasError = false;
   // NOTE: check email validity
   if (!emailRegex.test(email)) {
