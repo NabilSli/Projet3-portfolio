@@ -20,7 +20,7 @@ async function fetchWorkData() {
   });
   const response = await responseWorkData.json();
   if (!response) {
-    return false;
+    return;
   }
   return response;
 }
