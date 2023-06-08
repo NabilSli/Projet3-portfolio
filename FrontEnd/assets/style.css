@@ -246,6 +246,13 @@ li:hover {
   margin-bottom: 1em;
 }
 
+.filterButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 2px solid var(--primary-color);
+}
+
 .gallery {
   width: 100%;
   display: grid;
