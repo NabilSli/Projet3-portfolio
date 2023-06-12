@@ -249,8 +249,25 @@ li:hover {
 .filterButton {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: center;
+
+  margin: 50px 0;
+}
+
+.filterButton button {
   border: 2px solid var(--primary-color);
+  border-radius: 60px;
+  margin-right: 10px;
+  background-color: var(--main-background);
+  padding: 10px 20px;
+  font-weight: 700;
+  font-family: "syne";
+  color: var(--primary-color);
+}
+
+.filterButton button:hover {
+  background-color: var(--primary-color);
+  color: var(--main-background);
 }
 
 .gallery {
