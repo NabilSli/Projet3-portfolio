@@ -1,17 +1,10 @@
-// NOTE: CALLBACK HELL
-// function fetchWorkData2(callback) {
-//   fetch("http://localhost:5678/api/works/", {
-//    method: "get",
-//  }).then((responseWorkData2) => {
-//    responseWorkData2.json().then(response => {
-//      callback(response)
-//    })
-//  })
-// }
-// fetchWorkData2((response) => {
-//   console.log(response)
-// })
+// NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
+const buttonTous = document.querySelector(".btnTous");
+const buttonObject = document.querySelector(".btnObjets");
+const buttonAppartements = document.querySelector(".btnAppartements");
+const buttonHotelRestaurant = document.querySelector(".btnHotelRestaurant");
+const worksContainer = document.querySelector(".gallery");
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -26,8 +19,6 @@ async function fetchWorkData() {
   return response;
 }
 
-const worksContainer = document.querySelector(".gallery");
-
 async function displayWork(worksCategory) {
   // NOTE: call the css element from hte html base as parent for the html replacement
 
@@ -39,10 +30,6 @@ async function displayWork(worksCategory) {
     works = await fetchWorkData();
   }
 
-  if (!works) {
-    return console.error("L'api n'est pas accessible");
-  }
-
   // NOTE: empties the html from the index page
   worksContainer.innerHTML = "";
 
@@ -51,7 +38,6 @@ async function displayWork(worksCategory) {
     worksCategory != undefined
       ? works.filter((work) => work.category.name === worksCategory)
       : works;
-  console.log(worksToDisplay, worksCategory);
 
   worksToDisplay.forEach((work) => {
     // NOTE: creats the html elements for each project form the backend
@@ -75,22 +61,18 @@ async function displayWork(worksCategory) {
 displayWork();
 
 // NOTE: add listener for the diferent filters
-const buttonTous = document.querySelector(".btnTous");
 buttonTous.addEventListener("click", () => {
   displayWork();
 });
 
-const buttonObject = document.querySelector(".btnObjets");
 buttonObject.addEventListener("click", () => {
   displayWork("Objets");
 });
 
-const buttonAppartements = document.querySelector(".btnAppartements");
 buttonAppartements.addEventListener("click", () => {
   displayWork("Appartements");
 });
 
-const buttonHotelRestaurant = document.querySelector(".btnHotelRestaurant");
 buttonHotelRestaurant.addEventListener("click", () => {
   displayWork("Hotels & restaurants");
 });
