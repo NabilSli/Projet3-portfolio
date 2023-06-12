@@ -11,6 +11,7 @@
 // fetchWorkData2((response) => {
 //   console.log(response)
 // })
+let works = null;
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -25,13 +26,19 @@ async function fetchWorkData() {
   return response;
 }
 
-async function displayWork() {
+const worksContainer = document.querySelector(".gallery");
+
+async function displayWork(worksCategory) {
   // NOTE: call the css element from hte html base as parent for the html replacement
-  const worksContainer = document.querySelector(".gallery");
+
   // NOTE: put a text message while the js is executing
   worksContainer.innerHTML = "loading ...";
 
-  const works = await fetchWorkData();
+  // NOTE: set works if its not already set, in order to call the api only when needed
+  if (!works) {
+    works = await fetchWorkData();
+  }
+
   if (!works) {
     return console.error("L'api n'est pas accessible");
   }
@@ -39,7 +46,14 @@ async function displayWork() {
   // NOTE: empties the html from the index page
   worksContainer.innerHTML = "";
 
-  works.map((work) => {
+  // NOTE: displays the works by parameters, to enable filters
+  const worksToDisplay =
+    worksCategory != undefined
+      ? works.filter((work) => work.category.name === worksCategory)
+      : works;
+  console.log(worksToDisplay, worksCategory);
+
+  worksToDisplay.forEach((work) => {
     // NOTE: creats the html elements for each project form the backend
     const workFigure = document.createElement("figure");
     const workImage = document.createElement("img");
@@ -57,4 +71,26 @@ async function displayWork() {
   });
 }
 
+// NOTE: First display of the works
 displayWork();
+
+// NOTE: add listener for the diferent filters
+const buttonTous = document.querySelector(".btnTous");
+buttonTous.addEventListener("click", () => {
+  displayWork();
+});
+
+const buttonObject = document.querySelector(".btnObjets");
+buttonObject.addEventListener("click", () => {
+  displayWork("Objets");
+});
+
+const buttonAppartements = document.querySelector(".btnAppartements");
+buttonAppartements.addEventListener("click", () => {
+  displayWork("Appartements");
+});
+
+const buttonHotelRestaurant = document.querySelector(".btnHotelRestaurant");
+buttonHotelRestaurant.addEventListener("click", () => {
+  displayWork("Hotels & restaurants");
+});
