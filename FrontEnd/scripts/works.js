@@ -65,6 +65,8 @@ buttonTous.addEventListener("click", () => {
   displayWork();
 });
 
+// TODO: use category endpoint to dynamicallly generate buttons
+
 buttonObject.addEventListener("click", () => {
   displayWork("Objets");
 });
