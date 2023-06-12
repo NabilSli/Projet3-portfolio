@@ -1,16 +1,10 @@
-// NOTE: CALLBACK HELL
-// function fetchWorkData2(callback) {
-//   fetch("http://localhost:5678/api/works/", {
-//    method: "get",
-//  }).then((responseWorkData2) => {
-//    responseWorkData2.json().then(response => {
-//      callback(response)
-//    })
-//  })
-// }
-// fetchWorkData2((response) => {
-//   console.log(response)
-// })
+// NOTE: declare a global variable to initiate it and use it in multiple functions
+let works = null;
+const buttonTous = document.querySelector(".btnTous");
+const buttonObject = document.querySelector(".btnObjets");
+const buttonAppartements = document.querySelector(".btnAppartements");
+const buttonHotelRestaurant = document.querySelector(".btnHotelRestaurant");
+const worksContainer = document.querySelector(".gallery");
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -25,21 +19,27 @@ async function fetchWorkData() {
   return response;
 }
 
-async function displayWork() {
+async function displayWork(worksCategory) {
   // NOTE: call the css element from hte html base as parent for the html replacement
-  const worksContainer = document.querySelector(".gallery");
+
   // NOTE: put a text message while the js is executing
   worksContainer.innerHTML = "loading ...";
 
-  const works = await fetchWorkData();
+  // NOTE: set works if its not already set, in order to call the api only when needed
   if (!works) {
-    return console.error("L'api n'est pas accessible");
+    works = await fetchWorkData();
   }
 
   // NOTE: empties the html from the index page
   worksContainer.innerHTML = "";
 
-  works.map((work) => {
+  // NOTE: displays the works by parameters, to enable filters
+  const worksToDisplay =
+    worksCategory != undefined
+      ? works.filter((work) => work.category.name === worksCategory)
+      : works;
+
+  worksToDisplay.forEach((work) => {
     // NOTE: creats the html elements for each project form the backend
     const workFigure = document.createElement("figure");
     const workImage = document.createElement("img");
@@ -57,4 +57,24 @@ async function displayWork() {
   });
 }
 
+// NOTE: First display of the works
 displayWork();
+
+// NOTE: add listener for the diferent filters
+buttonTous.addEventListener("click", () => {
+  displayWork();
+});
+
+// TODO: use category endpoint to dynamicallly generate buttons
+
+buttonObject.addEventListener("click", () => {
+  displayWork("Objets");
+});
+
+buttonAppartements.addEventListener("click", () => {
+  displayWork("Appartements");
+});
+
+buttonHotelRestaurant.addEventListener("click", () => {
+  displayWork("Hotels & restaurants");
+});
