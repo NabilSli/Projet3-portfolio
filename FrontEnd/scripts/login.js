@@ -61,5 +61,7 @@ form.addEventListener("submit", async (event) => {
   } else {
     errorMessage.style.display = "none";
     sessionStorage.setItem("token", userToken);
+    console.log(userToken);
+    window.location.href = "index.html";
   }
 });
