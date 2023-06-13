@@ -1,6 +1,6 @@
-# 😃 BOOKI: Exemple of a professional photographer portfolio website.
+# Portfolio 😃 : Exemple of a professional interior designer's portfolio website.
 
-This website is my first JavaScript achievement as a web developer👏. I did it during my boot camp at OpenClassroom's Web developer.
+This website is one of my first JavaScript achievements as a web developer👏. I did it during my boot camp at OpenClassroom's Web developer.
 
 # 👁️‍🗨️ Preview
 
