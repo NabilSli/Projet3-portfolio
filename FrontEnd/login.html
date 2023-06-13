@@ -14,50 +14,52 @@
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
-    <header>
-      <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
-      <nav>
-        <ul>
-          <li>projets</li>
-          <li>contact</li>
-          <li class="navLogin">login</li>
-          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
-        </ul>
-      </nav>
-    </header>
+    <section class="core">
+      <header>
+        <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+        <nav>
+          <ul>
+            <li>projets</li>
+            <li>contact</li>
+            <li class="navLogin">login</li>
+            <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+          </ul>
+        </nav>
+      </header>
 
-    <main>
-      <form id="login">
-        <h2>Log In</h2>
-        <section class="loginForm">
-          <div class="loginInput">
-            <label for="email">E-mail</label>
-            <input type="text" name="email" id="email" />
-          </div>
-          <div class="loginInput">
-            <label for="password">Mot de passe</label>
-            <input type="password" id="pass" name="password" />
-          </div>
-        </section>
-        <p id="errorMessage" style="display: none">
-          Le nom et/ou le mot de passe est incorecte
-        </p>
-        <section class="loginButton">
-          <div>
-            <input type="submit" value="Se connecter" />
-          </div>
-        </section>
-        <a href="#" id="forgottenPassword">Mot de passe oublié</a>
-      </form>
-    </main>
+      <main>
+        <form id="login">
+          <h2>Log In</h2>
+          <section class="loginForm">
+            <div class="loginInput">
+              <label for="email">E-mail</label>
+              <input type="text" name="email" id="email" />
+            </div>
+            <div class="loginInput">
+              <label for="password">Mot de passe</label>
+              <input type="password" id="pass" name="password" />
+            </div>
+          </section>
+          <p id="errorMessage" style="display: none">
+            Le nom et/ou le mot de passe est incorecte
+          </p>
+          <section class="loginButton">
+            <div>
+              <input type="submit" value="Se connecter" />
+            </div>
+          </section>
+          <a href="#" id="forgottenPassword">Mot de passe oublié</a>
+        </form>
+      </main>
 
-    <footer>
-      <nav>
-        <ul>
-          <li>Mentions Légales</li>
-        </ul>
-      </nav>
-    </footer>
-    <script src="scripts/login.js"></script>
+      <footer>
+        <nav>
+          <ul>
+            <li>Mentions Légales</li>
+          </ul>
+        </nav>
+      </footer>
+      <script src="scripts/login.js"></script>
+    </section>
   </body>
 </html>
