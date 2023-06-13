@@ -404,4 +404,9 @@ footer nav ul {
 }
 
 .editorMode button {
+  background-color: var(--main-white);
+  border-radius: 60px;
+  padding: 10px 20px;
+  font-family: "work Sans";
+  border: none;
 }
