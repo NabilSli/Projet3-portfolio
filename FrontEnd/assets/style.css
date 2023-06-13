@@ -404,11 +404,15 @@ footer nav ul {
 }
 
 /**** modal ****/
-.editorMode fa-regular {
+.editorMode {
+  display: none;
+}
+
+#editorBand fa-regular {
   color: var(--main-white);
 }
 
-.editorMode button {
+#editorBand button {
   background-color: var(--main-white);
   border-radius: 60px;
   padding: 10px 20px;
