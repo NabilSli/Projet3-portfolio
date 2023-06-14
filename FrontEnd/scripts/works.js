@@ -1,9 +1,9 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
-const buttonTous = document.querySelector(".btnTous");
-const buttonObject = document.querySelector(".btnObjets");
-const buttonAppartements = document.querySelector(".btnAppartements");
-const buttonHotelRestaurant = document.querySelector(".btnHotelRestaurant");
+const buttonTous = document.querySelector("#btnTous");
+const buttonObject = document.querySelector("#btnObjets");
+const buttonAppartements = document.querySelector("#btnAppartements");
+const buttonHotelRestaurant = document.querySelector("#btnHotelRestaurant");
 const worksContainer = document.querySelector(".gallery");
 
 // NOTE: display all the works in the gallery dynamically
@@ -50,7 +50,7 @@ async function displayWork(worksCategory) {
     workImage.setAttribute("alt", work.title);
     workFigCaption.textContent = work.title;
 
-    // NOTE: adds to elements to the parent html container "gallery" cold before
+    // NOTE: adds to elements to the parent html container called before
     workFigure.appendChild(workImage);
     workFigure.appendChild(workFigCaption);
     worksContainer.appendChild(workFigure);

@@ -66,7 +66,7 @@
           <div class="editorMode">
             <aside id="btnModifier">
               <i class="fa-regular fa-pen-to-square"></i>
-              <p><a href="#">modifier</a></p>
+              <p><a href="#modal">modifier</a></p>
             </aside>
           </div>
         </section>
@@ -76,15 +76,19 @@
             <div class="editorMode">
               <aside id="btnModifier">
                 <i class="fa-regular fa-pen-to-square"></i>
-                <p><a href="#">modifier</a></p>
+                <p><a href="#modal">modifier</a></p>
               </aside>
             </div>
           </section>
           <section class="filterButton">
-            <button type="submit" class="btnTous">Tous</button>
-            <button type="submit" class="btnObjets">Objets</button>
-            <button type="submit" class="btnAppartements">Appartements</button>
-            <button type="submit" class="btnHotelRestaurant">
+            <button type="submit" class="mainButton" id="btnTous">Tous</button>
+            <button type="submit" class="mainButton" id="btnObjets">
+              Objets
+            </button>
+            <button type="submit" class="mainButton" id="btnAppartements">
+              Appartements
+            </button>
+            <button type="submit" class="mainButton" id="btnHotelRestaurant">
               Hôtels & restaurants
             </button>
           </section>
@@ -105,7 +109,7 @@
               cols="30"
               rows="10"
             ></textarea>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer" class="mainButton" />
           </form>
         </section>
       </main>
@@ -120,5 +124,13 @@
       <script src="scripts/works.js"></script>
       <script src="scripts/modal.js"></script>
     </section>
+    <aside id="modal">
+      <div class="modal-wrapper">
+        <h2>Galerie photo</h2>
+        <div id="galleryModal"></div>
+        <input type="submit" value="Ajouter une photo" class="mainButton" />
+        <input type="submit" value="supprimer la galerie" id="btnDeleteAll" />
+      </div>
+    </aside>
   </body>
 </html>
