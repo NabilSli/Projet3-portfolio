@@ -125,11 +125,19 @@
       <script src="scripts/modal.js"></script>
     </section>
     <aside id="modal">
-      <div class="modal-wrapper">
+      <div class="modalWrapper">
+        <i class="fa-solid fa-xmark"></i>
         <h2>Galerie photo</h2>
         <div id="galleryModal"></div>
-        <input type="submit" value="Ajouter une photo" class="mainButton" />
-        <input type="submit" value="supprimer la galerie" id="btnDeleteAll" />
+        <div class="modalBtn">
+          <input
+            type="submit"
+            value="Ajouter une photo"
+            class="mainButton"
+            id="modalAddBtn"
+          />
+          <input type="submit" value="supprimer la galerie" id="btnDeleteAll" />
+        </div>
       </div>
     </aside>
   </body>
