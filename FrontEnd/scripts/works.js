@@ -1,5 +1,6 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
+let modal = null;
 const buttonTous = document.querySelector("#btnTous");
 const buttonObject = document.querySelector("#btnObjets");
 const buttonAppartements = document.querySelector("#btnAppartements");
@@ -8,6 +9,8 @@ const worksContainer = document.querySelector(".gallery");
 const modalContainer = document.querySelector("#galleryModal");
 const editionModeBand = document.getElementById("editorBand");
 const editionModeButtons = document.getElementsByClassName("editorBtn");
+const modifyBtn = document.getElementById("modifyBtn");
+const modalBox = document.getElementById("modal");
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -69,6 +72,33 @@ if (sessionStorage.getItem("token") != null) {
     editionButton.style.display = "flex";
   }
 }
+
+// NOTE: opens the modal
+modifyBtn.addEventListener("click", () => {
+  modalBox.style.display = "flex";
+  modalBox
+    .querySelector(".modalCloseBtn")
+    .addEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalStop")
+    .addEventListener("click", stopPropagation);
+});
+
+// NOTE: CLoses the modal
+const closeModal = function (event) {
+  if (modalBox === null) return;
+  modalBox.style.display = "none";
+  modalBox
+    .querySelector(".modalCloseBtn")
+    .removeEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalStop")
+    .removeEventListener("click", stopPropagation);
+};
+
+const stopPropagation = function (event) {
+  event.stopPropagation();
+};
 
 // NOTE: First display of the works
 displayWork(worksContainer);
