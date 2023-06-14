@@ -18,7 +18,7 @@
     ></script>
   </head>
   <body>
-    <div class="editorMode">
+    <div class="editorMode" id="editorBand">
       <i class="fa-regular fa-pen-to-square"></i>
       <p>Mode édition</p>
       <button type="submit" class="postButton">publier les changements</button>
@@ -29,7 +29,7 @@
         <nav>
           <ul>
             <li><a href="#">projets</a></li>
-            <li><a href="#"></a>contact</li>
+            <li><a href="#">contact</a></li>
             <li><a href="login.html">login</a></li>
             <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
           </ul>
@@ -63,17 +63,21 @@
               </p>
             </article>
           </div>
-          <div id="btnModifier">
-            <i class="fa-regular fa-pen-to-square"></i>
-            <p><a href="#">modifier</a></p>
+          <div class="editorMode">
+            <aside id="btnModifier">
+              <i class="fa-regular fa-pen-to-square"></i>
+              <p><a href="#">modifier</a></p>
+            </aside>
           </div>
         </section>
         <section id="portfolio">
           <section id="portfolioTitle">
             <h2>Mes Projets</h2>
-            <div id="btnModifier">
-              <i class="fa-regular fa-pen-to-square"></i>
-              <p><a href="#">modifier</a></p>
+            <div class="editorMode">
+              <aside id="btnModifier">
+                <i class="fa-regular fa-pen-to-square"></i>
+                <p><a href="#">modifier</a></p>
+              </aside>
             </div>
           </section>
           <section class="filterButton">
