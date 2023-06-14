@@ -5,6 +5,9 @@ const buttonObject = document.querySelector("#btnObjets");
 const buttonAppartements = document.querySelector("#btnAppartements");
 const buttonHotelRestaurant = document.querySelector("#btnHotelRestaurant");
 const worksContainer = document.querySelector(".gallery");
+const modalContainer = document.querySelector("#galleryModal");
+const editionModeBand = document.getElementById("editorBand");
+const editionModeButtons = document.getElementsByClassName("editorBtn");
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -19,11 +22,11 @@ async function fetchWorkData() {
   return response;
 }
 
-async function displayWork(worksCategory) {
+async function displayWork(target, worksCategory) {
   // NOTE: call the css element from hte html base as parent for the html replacement
 
   // NOTE: put a text message while the js is executing
-  worksContainer.innerHTML = "loading ...";
+  target.innerHTML = "loading ...";
 
   // NOTE: set works if its not already set, in order to call the api only when needed
   if (!works) {
@@ -31,7 +34,7 @@ async function displayWork(worksCategory) {
   }
 
   // NOTE: empties the html from the index page
-  worksContainer.innerHTML = "";
+  target.innerHTML = "";
 
   // NOTE: displays the works by parameters, to enable filters
   const worksToDisplay =
@@ -53,28 +56,43 @@ async function displayWork(worksCategory) {
     // NOTE: adds to elements to the parent html container called before
     workFigure.appendChild(workImage);
     workFigure.appendChild(workFigCaption);
-    worksContainer.appendChild(workFigure);
+    target.appendChild(workFigure);
   });
 }
 
+// NOTE: Ici commence l'execution du code
+//
+//
+if (sessionStorage.getItem("token") != null) {
+  editionModeBand.style.display = "flex";
+  for (editionButton of editionModeButtons) {
+    editionButton.style.display = "flex";
+  }
+}
+
 // NOTE: First display of the works
-displayWork();
+displayWork(worksContainer);
 
 // NOTE: add listener for the diferent filters
 buttonTous.addEventListener("click", () => {
-  displayWork();
+  displayWork(worksContainer);
 });
 
 // TODO: use category endpoint to dynamicallly generate buttons
 
 buttonObject.addEventListener("click", () => {
-  displayWork("Objets");
+  displayWork(worksContainer, "Objets");
 });
 
 buttonAppartements.addEventListener("click", () => {
-  displayWork("Appartements");
+  displayWork(worksContainer, "Appartements");
 });
 
 buttonHotelRestaurant.addEventListener("click", () => {
-  displayWork("Hotels & restaurants");
+  displayWork(worksContainer, "Hotels & restaurants");
 });
+
+// declenchement de l'affichage de gallerie dans la modale
+//modifyBtn.addEventListener("click", () => {
+//  displayWork(modalContainer);
+//});

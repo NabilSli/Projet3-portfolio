@@ -404,11 +404,15 @@ footer nav ul {
   height: 60px;
 }
 
-.editorMode {
+#editorBand {
   display: none;
 }
 
-#editorBand fa-regular {
+.editorBtn {
+  display: none;
+}
+
+#editorBand .fa-regular {
   color: var(--main-white);
 }
 
@@ -464,6 +468,7 @@ footer nav ul {
   width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
+  display: none;
 }
 
 .modalWrapper {
