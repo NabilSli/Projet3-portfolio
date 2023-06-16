@@ -90,6 +90,7 @@ const openModal = function (event) {
     .addEventListener("click", stopPropagation);
 };
 
+// NOTE: make a loop so all the "modifier" links opens the modal
 document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
