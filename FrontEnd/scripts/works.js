@@ -1,6 +1,5 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
-let modal = null;
 const buttonTous = document.querySelector("#btnTous");
 const buttonObject = document.querySelector("#btnObjets");
 const buttonAppartements = document.querySelector("#btnAppartements");
@@ -63,18 +62,22 @@ async function displayWork(target, worksCategory) {
   });
 }
 
-// NOTE: Ici commence l'execution du code
-//
-//
-if (sessionStorage.getItem("token") != null) {
+// NOTE: the code start running here
+
+// NOTE: verify that we have an identification token in the session storage,
+/* meaning the user is correctly logged in and can have access to modifications*/
+if (
+  sessionStorage.getItem("token") != null ||
+  sessionStorage.getItem("token") != ""
+) {
   editionModeBand.style.display = "flex";
   for (editionButton of editionModeButtons) {
     editionButton.style.display = "flex";
   }
 }
 
-// NOTE: opens the modal
-modifyBtn.addEventListener("click", () => {
+// NOTE: opens the modal with a new function so  it be can used again in an other callbacks if needed
+modifyBtn.addEventListener("click", function openModal() {
   modalBox.style.display = "flex";
   modalBox
     .querySelector(".modalCloseBtn")
