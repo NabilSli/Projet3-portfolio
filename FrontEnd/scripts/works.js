@@ -8,7 +8,7 @@ const worksContainer = document.querySelector(".gallery");
 const modalContainer = document.querySelector("#galleryModal");
 const editionModeBand = document.getElementById("editorBand");
 const editionModeButtons = document.getElementsByClassName("editorBtn");
-const modifyBtn = document.getElementById("modifyBtn");
+const modifyBtn = document.querySelector(".modifyBtn");
 const modalBox = document.getElementById("modal");
 
 // NOTE: display all the works in the gallery dynamically
@@ -64,8 +64,8 @@ async function displayWork(target, worksCategory) {
 
 // NOTE: the code start running here
 
-// NOTE: verify that we have an identification token in the session storage,
-/* meaning the user is correctly logged in and can have access to modifications*/
+/* NOTE: verify that we have an identification token in the session storage,
+ meaning the user is correctly logged in and can have access to modifications */
 if (
   sessionStorage.getItem("token") != null ||
   sessionStorage.getItem("token") != ""
@@ -76,32 +76,46 @@ if (
   }
 }
 
-// NOTE: opens the modal with a new function so  it be can used again in an other callbacks if needed
-modifyBtn.addEventListener("click", function openModal() {
+/* NOTE: opens the modal with a new function so it be can used again in 
+an other callbacks if needed */
+
+const openModal = function (event) {
   modalBox.style.display = "flex";
+  modalBox.addEventListener("click", closeModal);
   modalBox
     .querySelector(".modalCloseBtn")
     .addEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalStop")
+    .querySelector(".modalWrapper")
     .addEventListener("click", stopPropagation);
+};
+
+document.querySelectorAll(".js-modal").forEach((a) => {
+  a.addEventListener("click", openModal);
 });
 
 // NOTE: CLoses the modal
 const closeModal = function (event) {
   if (modalBox === null) return;
   modalBox.style.display = "none";
+  modalBox.removeEventListener("click", closeModal);
   modalBox
     .querySelector(".modalCloseBtn")
     .removeEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalStop")
+    .querySelector(".modalWrapper")
     .removeEventListener("click", stopPropagation);
 };
 
 const stopPropagation = function (event) {
   event.stopPropagation();
 };
+
+window.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" || event.key === "Esc") {
+    closeModal(event);
+  }
+});
 
 // NOTE: First display of the works
 displayWork(worksContainer);

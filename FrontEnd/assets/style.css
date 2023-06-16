@@ -513,3 +513,7 @@ footer nav ul {
   border: none;
   background-color: var(--main-background);
 }
+
+.modalCloseBtn:hover {
+  cursor: pointer;
+}
