@@ -49,6 +49,15 @@ async function displayWork(target, worksCategory, isEditable) {
     const workFigure = document.createElement("figure");
     const workImage = document.createElement("img");
 
+    // NOTE: add the needed atributes for the elements
+    workImage.setAttribute("src", work.imageUrl);
+    workImage.setAttribute("alt", work.title);
+
+    // NOTE: adds to elements to the parent html container "gallery" cold before
+    workFigure.appendChild(workImage);
+    target.appendChild(workFigure);
+
+    // NOTE: changes card title if the galery is in the core page or in the modal
     if (!isEditable) {
       const workFigCaption = document.createElement("figcaption");
       workFigCaption.textContent = work.title;
@@ -62,14 +71,6 @@ async function displayWork(target, worksCategory, isEditable) {
       deleteBinButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
       workFigure.appendChild(deleteBinButton);
     }
-
-    // NOTE: add the needed atributes for the elements
-    workImage.setAttribute("src", work.imageUrl);
-    workImage.setAttribute("alt", work.title);
-
-    // NOTE: adds to elements to the parent html container "gallery" cold before
-    workFigure.appendChild(workImage);
-    target.appendChild(workFigure);
   });
 }
 
@@ -119,6 +120,7 @@ const closeModal = function (event) {
     .removeEventListener("click", stopPropagation);
 };
 
+// NOTE: to prevent the modal from closing when you click in it
 const stopPropagation = function (event) {
   event.stopPropagation();
 };
@@ -131,7 +133,7 @@ window.addEventListener("keydown", function (event) {
 
 // NOTE: First display of the works
 displayWork(worksContainer);
-
+console.log(worksContainer);
 // NOTE: add listener for the diferent filters
 buttonTous.addEventListener("click", () => {
   displayWork(worksContainer);
