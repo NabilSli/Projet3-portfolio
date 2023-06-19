@@ -1,10 +1,16 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
-const buttonTous = document.querySelector(".btnTous");
-const buttonObject = document.querySelector(".btnObjets");
-const buttonAppartements = document.querySelector(".btnAppartements");
-const buttonHotelRestaurant = document.querySelector(".btnHotelRestaurant");
-const worksContainer = document.querySelector(".gallery");
+const buttonTous = document.getElementById("btnTous");
+const buttonObject = document.getElementById("btnObjets");
+const buttonAppartements = document.getElementById("btnAppartements");
+const buttonHotelRestaurant = document.getElementById("btnHotelRestaurant");
+const maybeWorksContainer = document.getElementsByClassName("gallery");
+const worksContainer = maybeWorksContainer.item(0);
+const modalContainer = document.getElementById("galleryModal");
+const editionModeBand = document.getElementById("editorBand");
+const editionModeButtons = document.getElementsByClassName("editorBtn");
+const modifyBtn = document.getElementsByClassName("modifyBtn");
+const modalBox = document.getElementById("modal");
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -19,9 +25,8 @@ async function fetchWorkData() {
   return response;
 }
 
-async function displayWork(worksCategory) {
-  // NOTE: call the css element from hte html base as parent for the html replacement
-
+// TODO: add an "option" object in place of the works and editable arguments
+async function displayWork(target, worksCategory, isEditable) {
   // NOTE: put a text message while the js is executing
   worksContainer.innerHTML = "loading ...";
 
@@ -43,19 +48,83 @@ async function displayWork(worksCategory) {
     // NOTE: creats the html elements for each project form the backend
     const workFigure = document.createElement("figure");
     const workImage = document.createElement("img");
-    const workFigCaption = document.createElement("figcaption");
+
+    if (!isEditable) {
+      const workFigCaption = document.createElement("figcaption");
+      workFigCaption.textContent = work.title;
+      workFigure.appendChild(workFigCaption);
+    } else {
+      const editionButton = document.createElement("button");
+      editionButton.setAttribute("class", "galleryEditionBtn");
+      editionButton.innerText = "éditer";
+      workFigure.appendChild(editionButton);
+    }
 
     // NOTE: add the needed atributes for the elements
     workImage.setAttribute("src", work.imageUrl);
     workImage.setAttribute("alt", work.title);
-    workFigCaption.textContent = work.title;
 
     // NOTE: adds to elements to the parent html container "gallery" cold before
     workFigure.appendChild(workImage);
-    workFigure.appendChild(workFigCaption);
-    worksContainer.appendChild(workFigure);
+    target.appendChild(workFigure);
   });
 }
+
+// NOTE: the code start running here
+
+/* NOTE: verify that we have an identification token in the session storage,
+ meaning the user is correctly logged in and can have access to modifications */
+if (
+  sessionStorage.getItem("token") != null ||
+  sessionStorage.getItem("token") != ""
+) {
+  editionModeBand.style.display = "flex";
+  for (modificationButton of editionModeButtons) {
+    modificationButton.style.display = "flex";
+  }
+}
+
+/* NOTE: opens the modal with a new function so it be can used again in 
+an other callbacks if needed */
+
+const openModal = function (event) {
+  modalBox.style.display = "flex";
+  modalBox.addEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalCloseBtn")
+    .addEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalWrapper")
+    .addEventListener("click", stopPropagation);
+};
+
+// NOTE: make a loop so all the "modifier" links opens the modal
+document.querySelectorAll(".js-modal").forEach((a) => {
+  a.addEventListener("click", openModal);
+});
+
+// NOTE: CLoses the modal
+const closeModal = function (event) {
+  if (modalBox === null) return;
+  modalBox.style.display = "none";
+  modalBox.removeEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalCloseBtn")
+    .removeEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalWrapper")
+    .removeEventListener("click", stopPropagation);
+};
+
+const stopPropagation = function (event) {
+  event.stopPropagation();
+};
+
+window.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" || event.key === "Esc") {
+    closeModal(event);
+  }
+});
 
 // NOTE: First display of the works
 displayWork();
@@ -64,8 +133,6 @@ displayWork();
 buttonTous.addEventListener("click", () => {
   displayWork();
 });
-
-// TODO: use category endpoint to dynamicallly generate buttons
 
 buttonObject.addEventListener("click", () => {
   displayWork("Objets");
@@ -78,3 +145,5 @@ buttonAppartements.addEventListener("click", () => {
 buttonHotelRestaurant.addEventListener("click", () => {
   displayWork("Hotels & restaurants");
 });
+
+displayWork(modalContainer, null, true);
