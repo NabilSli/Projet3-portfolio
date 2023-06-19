@@ -127,23 +127,23 @@ window.addEventListener("keydown", function (event) {
 });
 
 // NOTE: First display of the works
-displayWork();
+displayWork(worksContainer);
 
 // NOTE: add listener for the diferent filters
 buttonTous.addEventListener("click", () => {
-  displayWork();
+  displayWork(worksContainer);
 });
 
 buttonObject.addEventListener("click", () => {
-  displayWork("Objets");
+  displayWork(worksContainer, "Objets");
 });
 
 buttonAppartements.addEventListener("click", () => {
-  displayWork("Appartements");
+  displayWork(worksContainer, "Appartements");
 });
 
 buttonHotelRestaurant.addEventListener("click", () => {
-  displayWork("Hotels & restaurants");
+  displayWork(worksContainer, "Hotels & restaurants");
 });
 
 displayWork(modalContainer, null, true);
