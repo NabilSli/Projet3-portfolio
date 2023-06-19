@@ -58,6 +58,9 @@ async function displayWork(target, worksCategory, isEditable) {
       editionButton.setAttribute("class", "galleryEditionBtn");
       editionButton.innerText = "éditer";
       workFigure.appendChild(editionButton);
+      const deleteBinButton = document.createElement("a");
+      deleteBinButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
+      workFigure.appendChild(deleteBinButton);
     }
 
     // NOTE: add the needed atributes for the elements
