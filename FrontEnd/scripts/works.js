@@ -1,10 +1,15 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
-const buttonTous = document.querySelector(".btnTous");
-const buttonObject = document.querySelector(".btnObjets");
-const buttonAppartements = document.querySelector(".btnAppartements");
-const buttonHotelRestaurant = document.querySelector(".btnHotelRestaurant");
+const buttonTous = document.querySelector("#btnTous");
+const buttonObject = document.querySelector("#btnObjets");
+const buttonAppartements = document.querySelector("#btnAppartements");
+const buttonHotelRestaurant = document.querySelector("#btnHotelRestaurant");
 const worksContainer = document.querySelector(".gallery");
+const modalContainer = document.querySelector("#galleryModal");
+const editionModeBand = document.getElementById("editorBand");
+const editionModeButtons = document.getElementsByClassName("editorBtn");
+const modifyBtn = document.querySelector(".modifyBtn");
+const modalBox = document.getElementById("modal");
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -19,11 +24,11 @@ async function fetchWorkData() {
   return response;
 }
 
-async function displayWork(worksCategory) {
+async function displayWork(target, worksCategory) {
   // NOTE: call the css element from hte html base as parent for the html replacement
 
   // NOTE: put a text message while the js is executing
-  worksContainer.innerHTML = "loading ...";
+  target.innerHTML = "loading ...";
 
   // NOTE: set works if its not already set, in order to call the api only when needed
   if (!works) {
@@ -31,7 +36,7 @@ async function displayWork(worksCategory) {
   }
 
   // NOTE: empties the html from the index page
-  worksContainer.innerHTML = "";
+  target.innerHTML = "";
 
   // NOTE: displays the works by parameters, to enable filters
   const worksToDisplay =
@@ -50,31 +55,92 @@ async function displayWork(worksCategory) {
     workImage.setAttribute("alt", work.title);
     workFigCaption.textContent = work.title;
 
-    // NOTE: adds to elements to the parent html container "gallery" cold before
+    // NOTE: adds to elements to the parent html container called before
     workFigure.appendChild(workImage);
     workFigure.appendChild(workFigCaption);
-    worksContainer.appendChild(workFigure);
+    target.appendChild(workFigure);
   });
 }
 
+// NOTE: the code start running here
+
+/* NOTE: verify that we have an identification token in the session storage,
+ meaning the user is correctly logged in and can have access to modifications */
+if (
+  sessionStorage.getItem("token") != null ||
+  sessionStorage.getItem("token") != ""
+) {
+  editionModeBand.style.display = "flex";
+  for (editionButton of editionModeButtons) {
+    editionButton.style.display = "flex";
+  }
+}
+
+/* NOTE: opens the modal with a new function so it be can used again in 
+an other callbacks if needed */
+
+const openModal = function (event) {
+  modalBox.style.display = "flex";
+  modalBox.addEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalCloseBtn")
+    .addEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalWrapper")
+    .addEventListener("click", stopPropagation);
+};
+
+// NOTE: make a loop so all the "modifier" links opens the modal
+document.querySelectorAll(".js-modal").forEach((a) => {
+  a.addEventListener("click", openModal);
+});
+
+// NOTE: CLoses the modal
+const closeModal = function (event) {
+  if (modalBox === null) return;
+  modalBox.style.display = "none";
+  modalBox.removeEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalCloseBtn")
+    .removeEventListener("click", closeModal);
+  modalBox
+    .querySelector(".modalWrapper")
+    .removeEventListener("click", stopPropagation);
+};
+
+const stopPropagation = function (event) {
+  event.stopPropagation();
+};
+
+window.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" || event.key === "Esc") {
+    closeModal(event);
+  }
+});
+
 // NOTE: First display of the works
-displayWork();
+displayWork(worksContainer);
 
 // NOTE: add listener for the diferent filters
 buttonTous.addEventListener("click", () => {
-  displayWork();
+  displayWork(worksContainer);
 });
 
 // TODO: use category endpoint to dynamicallly generate buttons
 
 buttonObject.addEventListener("click", () => {
-  displayWork("Objets");
+  displayWork(worksContainer, "Objets");
 });
 
 buttonAppartements.addEventListener("click", () => {
-  displayWork("Appartements");
+  displayWork(worksContainer, "Appartements");
 });
 
 buttonHotelRestaurant.addEventListener("click", () => {
-  displayWork("Hotels & restaurants");
+  displayWork(worksContainer, "Hotels & restaurants");
 });
+
+// declenchement de l'affichage de gallerie dans la modale
+//modifyBtn.addEventListener("click", () => {
+//  displayWork(modalContainer);
+//});
