@@ -98,7 +98,7 @@ const openModal = function (event) {
     .querySelector(".modalCloseBtn")
     .addEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalWrapper")
+    .querySelector(".modalWrapperEdit")
     .addEventListener("click", stopPropagation);
 };
 
@@ -116,7 +116,7 @@ const closeModal = function (event) {
     .querySelector(".modalCloseBtn")
     .removeEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalWrapper")
+    .querySelector(".modalWrapperEdit")
     .removeEventListener("click", stopPropagation);
 };
 

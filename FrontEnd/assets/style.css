@@ -113,6 +113,7 @@ section {
   --main-background: #fffef8;
   --main-black: #000000;
   --main-white: #ffffff;
+  --add-work-modal: #e8f1f7;
 }
 
 body {
@@ -467,7 +468,7 @@ footer nav ul {
   display: none;
 }
 
-.modalWrapper {
+.modalWrapperEdit {
   background-color: var(--main-background);
   border-radius: 10px;
   position: fixed;
@@ -475,11 +476,26 @@ footer nav ul {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 55px 100px;
+  max-height: 750px;
+  max-width: 630px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.modalWrapper h2 {
-  display: flex;
-  justify-content: center;
+.modalWrapperAddition {
+  background-color: var(--main-background);
+  border-radius: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 55px 100px;
+  max-height: 750px;
+  max-width: 630px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
 }
 
 .modalBtn {
@@ -497,11 +513,6 @@ footer nav ul {
   margin: 0;
 }
 
-#galleryModal {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
-  margin: 40px 0;
-}
-
 .modalCloseBtn {
   position: absolute;
   top: 25px;
@@ -510,10 +521,59 @@ footer nav ul {
   background-color: var(--main-background);
 }
 
+#galleryModal {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+  margin: 40px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr auto;
+  gap: 10px;
+}
+
 .modalCloseBtn:hover {
   cursor: pointer;
 }
 
-#galleryModal .img {
+#galleryModal img {
   height: 140px;
+}
+
+#galleryModal figure {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+#galleryModal figure button {
+  border: none;
+  background-color: var(--main-background);
+  display: flex;
+  justify-content: flex-start;
+}
+
+#galleryModal figure a {
+  padding: 4px;
+  background-color: var(--main-black);
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border-radius: 2px;
+}
+
+#galleryModal figure a i {
+  color: var(--main-white);
+}
+
+#galleryModal figure a:hover {
+  cursor: pointer;
+}
+
+/* seconde modal: work addition */
+
+#workAddition {
+  display: flex;
+  flex-direction: column;
+  height: 170px;
+  width: 420px;
+  border-radius: 3px;
+  background-color: var(--add-work-modal);
 }
