@@ -28,8 +28,7 @@ async function fetchWorkData() {
 // TODO: merge `worksCategory` and `isEditable` into an option object
 async function displayWork(target, worksCategory, isEditable) {
   // NOTE: put a text message while the js is executing
-  const loadingMessage = document.createTextNode("Loading ...");
-  target.appendChild(loadingMessage);
+  worksContainer.innerHTML = "loading ...";
 
   // NOTE: set works if its not already set, in order to call the api only when needed
   if (!works) {
@@ -72,6 +71,14 @@ async function displayWork(target, worksCategory, isEditable) {
       deleteBinButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
       workFigure.appendChild(deleteBinButton);
     }
+
+    // NOTE: add the needed atributes for the elements
+    workImage.setAttribute("src", work.imageUrl);
+    workImage.setAttribute("alt", work.title);
+
+    // NOTE: adds to elements to the parent html container called before
+    workFigure.appendChild(workImage);
+    target.appendChild(workFigure);
   });
 }
 
