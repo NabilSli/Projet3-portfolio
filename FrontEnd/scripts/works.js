@@ -28,7 +28,7 @@ async function fetchWorkData() {
 // TODO: add an "option" object in place of the works and editable arguments
 async function displayWork(target, worksCategory, isEditable) {
   // NOTE: put a text message while the js is executing
-  worksContainer.innerHTML = "loading ...";
+  target.innerHTML = "loading ...";
 
   // NOTE: set works if its not already set, in order to call the api only when needed
   if (!works) {
@@ -36,7 +36,7 @@ async function displayWork(target, worksCategory, isEditable) {
   }
 
   // NOTE: empties the html from the index page
-  worksContainer.innerHTML = "";
+  target.innerHTML = "";
 
   // NOTE: displays the works by parameters, to enable filters
   const worksToDisplay =
@@ -64,7 +64,7 @@ async function displayWork(target, worksCategory, isEditable) {
     workImage.setAttribute("src", work.imageUrl);
     workImage.setAttribute("alt", work.title);
 
-    // NOTE: adds to elements to the parent html container "gallery" cold before
+    // NOTE: adds to elements to the parent html container called before
     workFigure.appendChild(workImage);
     target.appendChild(workFigure);
   });

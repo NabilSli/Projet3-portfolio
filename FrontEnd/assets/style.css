@@ -261,7 +261,7 @@ li:hover {
   margin: 50px 0;
 }
 
-.filterButton button {
+.mainButton {
   border: 2px solid var(--primary-color);
   border-radius: 60px;
   margin-right: 10px;
@@ -272,7 +272,7 @@ li:hover {
   color: var(--primary-color);
 }
 
-.filterButton button:hover {
+.mainButton {
   background-color: var(--primary-color);
   color: var(--main-background);
 }
@@ -391,6 +391,7 @@ footer nav ul {
   font-weight: 500;
 }
 
+/**** modal ****/
 .editorMode {
   display: flex;
   align-items: center;
@@ -403,12 +404,15 @@ footer nav ul {
   height: 60px;
 }
 
-/**** modal ****/
-.editorMode {
+#editorBand {
   display: none;
 }
 
-#editorBand fa-regular {
+.editorBtn {
+  display: none;
+}
+
+#editorBand .fa-regular {
   color: var(--main-white);
 }
 
