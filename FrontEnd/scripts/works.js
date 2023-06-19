@@ -25,10 +25,11 @@ async function fetchWorkData() {
   return response;
 }
 
-// TODO: add an "option" object in place of the works and editable arguments
+// TODO: merge `worksCategory` and `isEditable` into an option object
 async function displayWork(target, worksCategory, isEditable) {
   // NOTE: put a text message while the js is executing
-  worksContainer.innerHTML = "loading ...";
+  const loadingMessage = document.createTextNode("Loading ...");
+  target.appendChild(loadingMessage);
 
   // NOTE: set works if its not already set, in order to call the api only when needed
   if (!works) {
@@ -36,7 +37,7 @@ async function displayWork(target, worksCategory, isEditable) {
   }
 
   // NOTE: empties the html from the index page
-  worksContainer.innerHTML = "";
+  target.replaceChildren();
 
   // NOTE: displays the works by parameters, to enable filters
   const worksToDisplay =
@@ -65,7 +66,7 @@ async function displayWork(target, worksCategory, isEditable) {
     } else {
       const editionButton = document.createElement("button");
       editionButton.setAttribute("class", "galleryEditionBtn");
-      editionButton.innerText = "éditer";
+      editionButton.value = "éditer";
       workFigure.appendChild(editionButton);
       const deleteBinButton = document.createElement("a");
       deleteBinButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
@@ -98,7 +99,7 @@ const openModal = function (event) {
     .querySelector(".modalCloseBtn")
     .addEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalWrapperEdit")
+    .querySelector(".modalWrapper")
     .addEventListener("click", stopPropagation);
 };
 
@@ -116,7 +117,7 @@ const closeModal = function (event) {
     .querySelector(".modalCloseBtn")
     .removeEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalWrapperEdit")
+    .querySelector(".modalWrapper")
     .removeEventListener("click", stopPropagation);
 };
 
