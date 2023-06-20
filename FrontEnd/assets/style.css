@@ -581,3 +581,7 @@ footer nav ul {
   border-radius: 3px;
   background-color: var(--add-work-modal);
 }
+
+#modalAdditionInput {
+  display: none;
+}

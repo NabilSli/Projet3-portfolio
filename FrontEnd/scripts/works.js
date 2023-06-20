@@ -55,7 +55,6 @@ async function displayWork(target, worksCategory, isEditable) {
 
     // NOTE: adds to elements to the parent html container "gallery" cold before
     workFigure.appendChild(workImage);
-    target.appendChild(workFigure);
 
     // NOTE: changes card title if the galery is in the core page or in the modal
     if (!isEditable) {
@@ -65,19 +64,13 @@ async function displayWork(target, worksCategory, isEditable) {
     } else {
       const editionButton = document.createElement("button");
       editionButton.setAttribute("class", "galleryEditionBtn");
-      editionButton.value = "éditer";
+      editionButton.textContent = "éditer";
       workFigure.appendChild(editionButton);
       const deleteBinButton = document.createElement("a");
       deleteBinButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
       workFigure.appendChild(deleteBinButton);
     }
 
-    // NOTE: add the needed atributes for the elements
-    workImage.setAttribute("src", work.imageUrl);
-    workImage.setAttribute("alt", work.title);
-
-    // NOTE: adds to elements to the parent html container called before
-    workFigure.appendChild(workImage);
     target.appendChild(workFigure);
   });
 }
@@ -87,9 +80,11 @@ async function displayWork(target, worksCategory, isEditable) {
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
 if (
-  sessionStorage.getItem("token") != null ||
-  sessionStorage.getItem("token") != ""
+  sessionStorage.getItem("token") == null ||
+  sessionStorage.getItem("token") == ""
 ) {
+  editionModeBand.style.display = "none";
+} else {
   editionModeBand.style.display = "flex";
   for (modificationButton of editionModeButtons) {
     modificationButton.style.display = "flex";
@@ -106,7 +101,10 @@ const openModal = function (event) {
     .querySelector(".modalCloseBtn")
     .addEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalWrapper")
+    .querySelector(".modalWrapperEdit")
+    .addEventListener("click", stopPropagation);
+  modalBox
+    .querySelector(".modalWrapperAddition")
     .addEventListener("click", stopPropagation);
 };
 
@@ -124,7 +122,10 @@ const closeModal = function (event) {
     .querySelector(".modalCloseBtn")
     .removeEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalWrapper")
+    .querySelector(".modalWrapperEdit")
+    .removeEventListener("click", stopPropagation);
+  modalBox
+    .querySelector("modalWrapperAddition")
     .removeEventListener("click", stopPropagation);
 };
 
@@ -141,7 +142,7 @@ window.addEventListener("keydown", function (event) {
 
 // NOTE: First display of the works
 displayWork(worksContainer);
-console.log(worksContainer);
+
 // NOTE: add listener for the diferent filters
 buttonTous.addEventListener("click", () => {
   displayWork(worksContainer);
