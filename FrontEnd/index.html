@@ -123,7 +123,7 @@
       </footer>
     </section>
     <aside id="modal">
-      <div class="modalWrapperEdit">
+      <div class="modalWrapperEdit" id="modalWrapperEdit">
         <button class="modalCloseBtn">
           <i class="fa-solid fa-xmark"></i>
         </button>
@@ -131,7 +131,7 @@
         <div id="galleryModal"></div>
         <div class="modalBtn">
           <input
-            type="submit"
+            type="button"
             value="Ajouter une photo"
             class="mainButton"
             id="modalAddBtn"
@@ -139,23 +139,30 @@
           <input type="submit" value="supprimer la galerie" id="btnDeleteAll" />
         </div>
       </div>
-      <div class="modalWrapperAddition">
+      <div class="modalWrapperAddition" id="modalWrapperAddition">
+        <div class="modalNavBand">
+          <button class="returnArrowBtn"  id="modalCloseBtn">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button class="modalCloseBtn">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
         <h2>Ajout photo</h2>
         <div id="workAddition">
           <i class="fa-sharp fa-regular fa-image"></i>
           <label>+ Ajouter photo
-          <input id="modalAdditionInput"
-          type="file"
-          class="modalAdditionButton"
-          id="modalAdditionBtn"
-        />
-      </label>
-        <p>jpg, png : 4mo max</p>
+            <input id="modalAdditionInput"
+            type="file"
+            class="modalAdditionButton"
+            id="modalAdditionBtn"
+            />
+          </label>
+          <p>jpg, png : 4mo max</p>
         </div>
         <form action="#" method="post">
           <label for="title">Titre</label>
           <input type="text" name="title" id="title" />
-          
           <label for="categorySelection">Catégorie</label>
           <select name="categorySelect" id="selectCategory"></select>
       </div>

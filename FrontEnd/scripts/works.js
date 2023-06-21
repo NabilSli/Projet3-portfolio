@@ -11,6 +11,10 @@ const editionModeBand = document.getElementById("editorBand");
 const editionModeButtons = document.getElementsByClassName("editorBtn");
 const modifyBtn = document.getElementsByClassName("modifyBtn");
 const modalBox = document.getElementById("modal");
+const modalAddNewWorkBtn = document.getElementById("modalAddBtn");
+const modalEdit = document.getElementById("modalWrapperEdit");
+const modaladdition = document.getElementById("modalWrapperAddition");
+const modalReturnArrow = document.getElementById("modalCloseBtn");
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -113,10 +117,26 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
+// NOTE: Transition to the second modal
+modalAddNewWorkBtn.addEventListener("click", function (event) {
+  modalEdit.style.display = "none";
+  modaladdition.style.display = "flex";
+  modaladdition
+    .querySelector(".modalCloseBtn")
+    .addEventListener("click", closeModal);
+});
+
+modalReturnArrow.addEventListener("click", function (event) {
+  modaladdition.style.display = "none";
+  modalEdit.style.display = "flex";
+});
+
 // NOTE: CLoses the modal
 const closeModal = function (event) {
   if (modalBox === null) return;
   modalBox.style.display = "none";
+  modalEdit.style.display = "flex";
+  modaladdition.style.display = "none";
   modalBox.removeEventListener("click", closeModal);
   modalBox
     .querySelector(".modalCloseBtn")
