@@ -142,15 +142,15 @@
       <div class="modalWrapperAddition" id="modalWrapperAddition">
         <div class="modalNavBand">
           <button class="returnArrowBtn"  id="modalCloseBtn">
-            <i class="fa-solid fa-arrow-left"></i>
+            <i class="fa-solid fa-arrow-left fa-lg"></i>
           </button>
           <button class="modalCloseBtn">
-            <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark fa-lg"></i>
           </button>
         </div>
         <h2>Ajout photo</h2>
         <div id="workAddition">
-          <i class="fa-sharp fa-regular fa-image"></i>
+          <img class="pictureUpload" src="assets/images/Group(1).svg" alt="Ajouter une photo">
           <label>+ Ajouter photo
             <input id="modalAdditionInput"
             type="file"
@@ -160,12 +160,13 @@
           </label>
           <p>jpg, png : 4mo max</p>
         </div>
-        <form action="#" method="post">
+        <form id="addWorkForm" action="#" method="post">
           <label for="title">Titre</label>
           <input type="text" name="title" id="title" />
           <label for="categorySelection">Catégorie</label>
           <select name="categorySelect" id="selectCategory"></select>
-      </div>
+        </form>
+        <input type="submit" value="Valider" class="modalValidationBtn" id="modalValidationBtn" />
     </aside>
     <script src="scripts/works.js"></script>
   </body>
