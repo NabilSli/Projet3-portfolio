@@ -1,14 +1,15 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
-const buttonTous = document.querySelector("#btnTous");
-const buttonObject = document.querySelector("#btnObjets");
-const buttonAppartements = document.querySelector("#btnAppartements");
-const buttonHotelRestaurant = document.querySelector("#btnHotelRestaurant");
-const worksContainer = document.querySelector(".gallery");
-const modalContainer = document.querySelector("#galleryModal");
+const buttonTous = document.getElementById("btnTous");
+const buttonObject = document.getElementById("btnObjets");
+const buttonAppartements = document.getElementById("btnAppartements");
+const buttonHotelRestaurant = document.getElementById("btnHotelRestaurant");
+const maybeWorksContainer = document.getElementsByClassName("gallery");
+const worksContainer = maybeWorksContainer.item(0);
+const modalContainer = document.getElementById("galleryModal");
 const editionModeBand = document.getElementById("editorBand");
 const editionModeButtons = document.getElementsByClassName("editorBtn");
-const modifyBtn = document.querySelector(".modifyBtn");
+const modifyBtn = document.getElementsByClassName("modifyBtn");
 const modalBox = document.getElementById("modal");
 
 // NOTE: display all the works in the gallery dynamically
@@ -24,11 +25,10 @@ async function fetchWorkData() {
   return response;
 }
 
-async function displayWork(target, worksCategory) {
-  // NOTE: call the css element from hte html base as parent for the html replacement
-
+// TODO: merge `worksCategory` and `isEditable` into an option object
+async function displayWork(target, worksCategory, isEditable) {
   // NOTE: put a text message while the js is executing
-  target.innerHTML = "loading ...";
+  worksContainer.innerHTML = "loading ...";
 
   // NOTE: set works if its not already set, in order to call the api only when needed
   if (!works) {
@@ -36,7 +36,7 @@ async function displayWork(target, worksCategory) {
   }
 
   // NOTE: empties the html from the index page
-  target.innerHTML = "";
+  target.replaceChildren();
 
   // NOTE: displays the works by parameters, to enable filters
   const worksToDisplay =
@@ -48,16 +48,29 @@ async function displayWork(target, worksCategory) {
     // NOTE: creats the html elements for each project form the backend
     const workFigure = document.createElement("figure");
     const workImage = document.createElement("img");
-    const workFigCaption = document.createElement("figcaption");
 
     // NOTE: add the needed atributes for the elements
     workImage.setAttribute("src", work.imageUrl);
     workImage.setAttribute("alt", work.title);
-    workFigCaption.textContent = work.title;
 
-    // NOTE: adds to elements to the parent html container called before
+    // NOTE: adds to elements to the parent html container "gallery" cold before
     workFigure.appendChild(workImage);
-    workFigure.appendChild(workFigCaption);
+
+    // NOTE: changes card title if the galery is in the core page or in the modal
+    if (!isEditable) {
+      const workFigCaption = document.createElement("figcaption");
+      workFigCaption.textContent = work.title;
+      workFigure.appendChild(workFigCaption);
+    } else {
+      const editionButton = document.createElement("button");
+      editionButton.setAttribute("class", "galleryEditionBtn");
+      editionButton.textContent = "éditer";
+      workFigure.appendChild(editionButton);
+      const deleteBinButton = document.createElement("a");
+      deleteBinButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
+      workFigure.appendChild(deleteBinButton);
+    }
+
     target.appendChild(workFigure);
   });
 }
@@ -67,12 +80,14 @@ async function displayWork(target, worksCategory) {
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
 if (
-  sessionStorage.getItem("token") != null ||
-  sessionStorage.getItem("token") != ""
+  sessionStorage.getItem("token") == null ||
+  sessionStorage.getItem("token") == ""
 ) {
+  editionModeBand.style.display = "none";
+} else {
   editionModeBand.style.display = "flex";
-  for (editionButton of editionModeButtons) {
-    editionButton.style.display = "flex";
+  for (modificationButton of editionModeButtons) {
+    modificationButton.style.display = "flex";
   }
 }
 
@@ -86,7 +101,10 @@ const openModal = function (event) {
     .querySelector(".modalCloseBtn")
     .addEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalWrapper")
+    .querySelector(".modalWrapperEdit")
+    .addEventListener("click", stopPropagation);
+  modalBox
+    .querySelector(".modalWrapperAddition")
     .addEventListener("click", stopPropagation);
 };
 
@@ -104,10 +122,14 @@ const closeModal = function (event) {
     .querySelector(".modalCloseBtn")
     .removeEventListener("click", closeModal);
   modalBox
-    .querySelector(".modalWrapper")
+    .querySelector(".modalWrapperEdit")
+    .removeEventListener("click", stopPropagation);
+  modalBox
+    .querySelector("modalWrapperAddition")
     .removeEventListener("click", stopPropagation);
 };
 
+// NOTE: to prevent the modal from closing when you click in it
 const stopPropagation = function (event) {
   event.stopPropagation();
 };
@@ -126,8 +148,6 @@ buttonTous.addEventListener("click", () => {
   displayWork(worksContainer);
 });
 
-// TODO: use category endpoint to dynamicallly generate buttons
-
 buttonObject.addEventListener("click", () => {
   displayWork(worksContainer, "Objets");
 });
@@ -140,7 +160,4 @@ buttonHotelRestaurant.addEventListener("click", () => {
   displayWork(worksContainer, "Hotels & restaurants");
 });
 
-// declenchement de l'affichage de gallerie dans la modale
-//modifyBtn.addEventListener("click", () => {
-//  displayWork(modalContainer);
-//});
+displayWork(modalContainer, null, true);
