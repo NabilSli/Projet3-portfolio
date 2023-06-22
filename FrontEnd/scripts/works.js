@@ -1,11 +1,13 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
+let categories = null;
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
 const buttonHotelRestaurant = document.getElementById("btnHotelRestaurant");
 const maybeWorksContainer = document.getElementsByClassName("gallery");
 const worksContainer = maybeWorksContainer.item(0);
+const categoriesSelection = document.getElementById("selectCategory");
 const modalContainer = document.getElementById("galleryModal");
 const editionModeBand = document.getElementById("editorBand");
 const editionModeButtons = document.getElementsByClassName("editorBtn");
@@ -78,6 +80,50 @@ async function displayWork(target, worksCategory, isEditable) {
     target.appendChild(workFigure);
   });
 }
+
+// NOTE: get all the categories from the backend
+
+async function fetchCategoriesData() {
+  const responseCategoriesData = await fetch(
+    "http://localhost:5678/api/categories",
+    {
+      method: "get",
+    }
+  );
+
+  const response = await responseCategoriesData.json();
+
+  const optionCategory = response;
+
+  const optionfiler = document.createElement("option");
+
+  for (let i = 0; i < response.length; i++) {
+    optionfiler.value += `${optionCategory[i].id}` ?? "aucune catégorie";
+    optionfiler.innerText += `${optionCategory[i].name}` ?? "sans noms";
+  }
+  console.log(optionfiler.value);
+  console.log(optionfiler.innerText);
+}
+
+fetchCategoriesData();
+
+/*
+    const optionObjets = document.createElement("option");
+    const optionAppartements = document.createElement("option");
+    const optionHotels = document.createElement("option");
+
+    optionObjets.setAttribute("value", "1");
+    optionAppartements.setAttribute("value", "2");
+    optionHotels.setAttribute("value", "3");
+
+    optionObjets.innerText("Objets");
+    optionAppartements.innerText("Appartements");
+    optionHotels.innerText("Hotels $ restaurants");
+
+    target.appendChild(optionObjets);
+    target.appendChild(optionAppartements);
+    target.appendChild(optionHotels);
+*/
 
 // NOTE: the code start running here
 
