@@ -580,10 +580,32 @@ footer nav ul {
 #workAddition {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 170px;
   width: 420px;
   border-radius: 3px;
   background-color: var(--add-work-modal);
+}
+
+#workAddition img {
+  margin-top: 20px;
+}
+
+#workAddition label {
+  background-color: #cbd6dc;
+  padding: 10px 33px;
+  border-radius: 50px;
+  color: #306685;
+  margin-top: 20px;
+}
+
+#workAddition p {
+  color: #444444;
+  font-family: "Work Sans";
+  font-weight: 400;
+  font-size: 10px;
+  margin-top: 7px;
 }
 
 #modalAdditionInput {
@@ -601,4 +623,52 @@ footer nav ul {
   left: 30px;
   border: none;
   background-color: var(--main-background);
+}
+.returnArrowBtn:hover {
+  cursor: pointer;
+}
+.modalWrapperAddition {
+  background-color: var(--main-white);
+}
+.modalWrapperAddition h2 {
+  font-family: "Work Sans";
+  font-weight: 400;
+  font-size: 26px;
+  color: var(--main-black);
+  margin-bottom: 35px;
+}
+
+#addWorkForm {
+  margin-top: 10px;
+  padding-bottom: 47px;
+  border-bottom: 1px solid #b3b3b3;
+  display: flex;
+  flex-direction: column;
+}
+
+#addWorkForm label {
+  font-family: "Work Sans";
+  font-weight: 500;
+  margin: 20px 0 10px 0;
+}
+
+#addWorkForm input,
+#addWorkForm select {
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  background-color: var(--main-white);
+  border: none;
+  height: 50px;
+  width: 420px;
+  font-weight: 400px;
+}
+
+#modalValidationBtn {
+  background-color: #a7a7a7;
+  width: 240px;
+  height: 36px;
+  border: none;
+}
+
+#modalValidationBtn:hover {
+  cursor: pointer;
 }

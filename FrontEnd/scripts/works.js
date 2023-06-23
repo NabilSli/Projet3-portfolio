@@ -1,11 +1,13 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
+let categories = null;
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
 const buttonHotelRestaurant = document.getElementById("btnHotelRestaurant");
 const maybeWorksContainer = document.getElementsByClassName("gallery");
 const worksContainer = maybeWorksContainer.item(0);
+const categoriesSelection = document.getElementById("selectCategory");
 const modalContainer = document.getElementById("galleryModal");
 const editionModeBand = document.getElementById("editorBand");
 const editionModeButtons = document.getElementsByClassName("editorBtn");
@@ -78,6 +80,47 @@ async function displayWork(target, worksCategory, isEditable) {
     target.appendChild(workFigure);
   });
 }
+
+// NOTE: get all the categories from the backend
+async function fetchCategoriesData() {
+  const responseCategoriesData = await fetch(
+    "http://localhost:5678/api/categories",
+    {
+      method: "get",
+    }
+  );
+  // NOTE: convert JSON object in to an array of objects
+  const response = await responseCategoriesData.json();
+
+  const optionCategory = response;
+  // NOTE: iterate the creation of option dinamically from the backend
+  for (let i = 0; i < response.length; i++) {
+    const optionFiler = document.createElement("option");
+    optionFiler.value = `${optionCategory[i].id}` ?? "aucune catégorie";
+    optionFiler.innerText = `${optionCategory[i].name}` ?? "sans noms";
+    categoriesSelection.appendChild(optionFiler);
+  }
+}
+
+fetchCategoriesData();
+
+/*
+    const optionObjets = document.createElement("option");
+    const optionAppartements = document.createElement("option");
+    const optionHotels = document.createElement("option");
+
+    optionObjets.setAttribute("value", "1");
+    optionAppartements.setAttribute("value", "2");
+    optionHotels.setAttribute("value", "3");
+
+    optionObjets.innerText("Objets");
+    optionAppartements.innerText("Appartements");
+    optionHotels.innerText("Hotels $ restaurants");
+
+    target.appendChild(optionObjets);
+    target.appendChild(optionAppartements);
+    target.appendChild(optionHotels);
+*/
 
 // NOTE: the code start running here
 
