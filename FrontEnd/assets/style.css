@@ -600,6 +600,10 @@ footer nav ul {
   margin-top: 20px;
 }
 
+#workAddition label:hover {
+  cursor: pointer;
+}
+
 #workAddition p {
   color: #444444;
   font-family: "Work Sans";
