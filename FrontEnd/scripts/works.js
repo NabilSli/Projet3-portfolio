@@ -82,7 +82,6 @@ async function displayWork(target, worksCategory, isEditable) {
 }
 
 // NOTE: get all the categories from the backend
-
 async function fetchCategoriesData() {
   const responseCategoriesData = await fetch(
     "http://localhost:5678/api/categories",
@@ -90,19 +89,17 @@ async function fetchCategoriesData() {
       method: "get",
     }
   );
-
+  // NOTE: convert JSON object in to an array of objects
   const response = await responseCategoriesData.json();
 
   const optionCategory = response;
-
-  const optionfiler = document.createElement("option");
-
+  // NOTE: iterate the creation of option dinamically from the backend
   for (let i = 0; i < response.length; i++) {
-    optionfiler.value += `${optionCategory[i].id}` ?? "aucune catégorie";
-    optionfiler.innerText += `${optionCategory[i].name}` ?? "sans noms";
+    const optionFiler = document.createElement("option");
+    optionFiler.value = `${optionCategory[i].id}` ?? "aucune catégorie";
+    optionFiler.innerText = `${optionCategory[i].name}` ?? "sans noms";
+    categoriesSelection.appendChild(optionFiler);
   }
-  console.log(optionfiler.value);
-  console.log(optionfiler.innerText);
 }
 
 fetchCategoriesData();
