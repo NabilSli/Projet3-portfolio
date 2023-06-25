@@ -1,6 +1,7 @@
 // NOTE: declare a global variable to initiate it and use it in multiple functions
 let works = null;
 let categories = null;
+let idToken = sessionStorage.getItem("token");
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
@@ -17,6 +18,20 @@ const modalAddNewWorkBtn = document.getElementById("modalAddBtn");
 const modalEdit = document.getElementById("modalWrapperEdit");
 const modaladdition = document.getElementById("modalWrapperAddition");
 const modalReturnArrow = document.getElementById("modalCloseBtn");
+
+/* NOTE: verify that we have an identification token in the session storage,
+ meaning the user is correctly logged in and can have access to modifications */
+if (
+  sessionStorage.getItem("token") == null ||
+  sessionStorage.getItem("token") == ""
+) {
+  editionModeBand.style.display = "none";
+} else {
+  editionModeBand.style.display = "flex";
+  for (modificationButton of editionModeButtons) {
+    modificationButton.style.display = "flex";
+  }
+}
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -75,6 +90,24 @@ async function displayWork(target, worksCategory, isEditable) {
       const deleteBinButton = document.createElement("a");
       deleteBinButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
       workFigure.appendChild(deleteBinButton);
+
+      deleteBinButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const worksToDelete = work.id;
+
+        let response = await fetch(
+          `http://localhost:5678/api/works/${worksToDelete}`,
+          {
+            method: "DELETE",
+            headers: {
+              accept: "*/*",
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        );
+        console.log(idToken);
+      });
     }
 
     target.appendChild(workFigure);
@@ -102,41 +135,20 @@ async function fetchCategoriesData() {
   }
 }
 
-fetchCategoriesData();
+/* NOTE: delete works
+async function fetchWorkToDelete() {
+  const responseWorkToDelete = await fetch(
+    "http://localhost:5678/api/works/{id}",
+    {
+      method: "delete",
+    }
+  );
 
-/*
-    const optionObjets = document.createElement("option");
-    const optionAppartements = document.createElement("option");
-    const optionHotels = document.createElement("option");
-
-    optionObjets.setAttribute("value", "1");
-    optionAppartements.setAttribute("value", "2");
-    optionHotels.setAttribute("value", "3");
-
-    optionObjets.innerText("Objets");
-    optionAppartements.innerText("Appartements");
-    optionHotels.innerText("Hotels $ restaurants");
-
-    target.appendChild(optionObjets);
-    target.appendChild(optionAppartements);
-    target.appendChild(optionHotels);
-*/
+  const response = await responseWorkToDelete.json();
+  
+} */
 
 // NOTE: the code start running here
-
-/* NOTE: verify that we have an identification token in the session storage,
- meaning the user is correctly logged in and can have access to modifications */
-if (
-  sessionStorage.getItem("token") == null ||
-  sessionStorage.getItem("token") == ""
-) {
-  editionModeBand.style.display = "none";
-} else {
-  editionModeBand.style.display = "flex";
-  for (modificationButton of editionModeButtons) {
-    modificationButton.style.display = "flex";
-  }
-}
 
 /* NOTE: opens the modal with a new function so it be can used again in 
 an other callbacks if needed */
@@ -224,3 +236,5 @@ buttonHotelRestaurant.addEventListener("click", () => {
 });
 
 displayWork(modalContainer, null, true);
+
+fetchCategoriesData();
