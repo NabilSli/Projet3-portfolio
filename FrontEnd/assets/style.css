@@ -509,7 +509,7 @@ footer nav ul {
   gap: 20px;
 }
 
-#modalAddBtn {
+#modalAddNewWorkBtn {
   margin: 0;
 }
 
@@ -532,6 +532,7 @@ footer nav ul {
 #galleryModal {
   border-bottom: 2px solid rgba(0, 0, 0, 0.15);
   margin: 40px 0;
+  padding-bottom: 47px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr auto;
   gap: 10px;
@@ -586,6 +587,9 @@ footer nav ul {
   width: 420px;
   border-radius: 3px;
   background-color: var(--add-work-modal);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #workAddition img {
@@ -612,7 +616,7 @@ footer nav ul {
   margin-top: 7px;
 }
 
-#modalAdditionInput {
+#modalAddWorkInputBtn {
   display: none;
 }
 
@@ -634,7 +638,7 @@ footer nav ul {
 .modalWrapperAddition {
   background-color: var(--main-white);
 }
-.modalWrapperAddition h2 {
+#modal h2 {
   font-family: "Work Sans";
   font-weight: 400;
   font-size: 26px;
@@ -675,4 +679,11 @@ footer nav ul {
 
 #modalValidationBtn:hover {
   cursor: pointer;
+}
+
+#uploadedImgBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  object-fit: contain;
 }
