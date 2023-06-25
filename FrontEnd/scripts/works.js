@@ -22,6 +22,9 @@ const modaladdition = document.getElementById("modalWrapperAddition");
 const modalReturnArrow = document.getElementById("modalCloseBtn");
 const uploadedImgBox = document.getElementById("uploadedImgBox");
 const workAddition = document.getElementById("workAddition");
+const addWorkForm = document.getElementById("addWorkForm");
+const newWorkTitleInput = document.getElementById("uploadTitle");
+const uploadSelect = document.getElementById("selectCategor");
 
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
@@ -240,4 +243,31 @@ modalAddWorkInputBtn.addEventListener("change", function () {
     workAddition.style.backgroundImage = `url(${uploadedImg})`;
   });
   reader.readAsDataURL(this.files[0]);
+});
+
+addWorkForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(form);
+  const newWorkTitle = formData.get("title");
+  const newWorkCategory = formData.get("categorySelect");
+  let hasError = false;
+
+  const uploadTitle = newWorkTitle.value;
+  if (uploadTitle === "") {
+    hasError = true;
+    uploadTitle.style.border = "1px solid red";
+  } else {
+    newWorkTitleInput.style.border = "initial";
+  }
+  const uploadCategory = newWorkCategory.value;
+  if ((uploadCategory = "")) {
+    hasError = true;
+    uploadSelect.style.border = "1px solid red";
+  } else {
+    uploadSelect.style.border = "initial";
+  }
+
+  if (hasError) {
+    return;
+  }
 });
