@@ -135,6 +135,8 @@ async function fetchCategoriesData() {
     const optionFiler = document.createElement("option");
     optionFiler.value = `${optionCategory[i].id}` ?? "aucune catégorie";
     optionFiler.innerText = `${optionCategory[i].name}` ?? "sans noms";
+    console.log(optionCategory[i].id);
+    optionFiler.setAttribute("value", optionCategory[i].id);
     categoriesSelection.appendChild(optionFiler);
   }
 }
@@ -180,6 +182,7 @@ modalReturnArrow.addEventListener("click", function (event) {
 
 // NOTE: CLoses the modal
 const closeModal = function (event) {
+  event.preventDefault();
   if (modalBox === null) return;
   modalBox.style.display = "none";
   modalEdit.style.display = "flex";
@@ -243,65 +246,73 @@ modalAddWorkInputBtn.addEventListener("change", function () {
 });
 
 addWorkForm.addEventListener("submit", async (event) => {
+  event.stopPropagation();
   event.preventDefault();
-  event.stopImmediatePropagation();
-
+  console.log("ca marche 1");
+  // debugger;
   if (
     sessionStorage.getItem("token") == null ||
     sessionStorage.getItem("token") == ""
   ) {
     return;
+  }
+
+  console.log("ca marche 2");
+  const formData = new FormData(addWorkForm);
+
+  const newWorkTitle = formData.get("title");
+  const newWorkCategory = formData.get("category");
+  const newWorkImage = formData.get("image");
+
+  console.log(newWorkImage);
+  let hasError = false;
+
+  if (newWorkTitle === "") {
+    hasError = true;
+    uploadTitle.style.border = "1px solid red";
+    alert("Veuillez entrer un Titre");
+    return;
   } else {
-    const formData = new FormData(addWorkForm);
-    const newWorkTitle = formData.get("title");
-    const newWorkCategory = formData.get("categoryId");
-    let hasError = false;
+    newWorkTitleInput.style.border = "initial";
+  }
 
-    if (newWorkTitle === "") {
-      hasError = true;
-      uploadTitle.style.border = "1px solid red";
-      alert("Veuillez entrer un Titre");
-    } else {
-      newWorkTitleInput.style.border = "initial";
-    }
+  if (newWorkCategory === "") {
+    hasError = true;
+    uploadSelect.style.border = "1px solid red";
+    alert("Veuillez sélectioner une catégorie");
+    return;
+  } else {
+    uploadSelect.style.border = "initial";
+  }
 
-    if (newWorkCategory === "") {
-      hasError = true;
-      uploadSelect.style.border = "1px solid red";
-      alert("Veuillez sélectioner une catégorie");
-    } else {
-      uploadSelect.style.border = "initial";
-    }
+  // console.log(newWorkCategory);
 
-    const reader = new FileReader();
-    reader.addEventListener("load", (event) => {
-      event.preventDefault();
-      uploadedImg = reader.result;
-      if (uploadedImg > 4000) {
-        alert(
-          "Fichier trop lourd, veuillez sélectioner un fichier de moin de 4mo."
-        );
-        workAddition.style.border = "1px solid red";
-        hasError = true;
-      }
-    });
+  const formDataToSend = new FormData();
+  formDataToSend.append("title", newWorkTitle);
+  formDataToSend.append("category", newWorkCategory);
+  formDataToSend.append("image", newWorkImage);
 
-    if (hasError) {
-      return;
-    }
+  console.log(newWorkImage);
 
-    const plainFormData = Object.fromEntries(formData.entries());
-    const formDataJsonString = JSON.stringify(plainFormData);
+  if (hasError) {
+    return;
+  }
 
-    const responsePost = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-      },
-      body: formData,
-    });
+  const response = await axios("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    },
+    body: formDataToSend,
+  });
 
-    const response = await responsePost.text();
+  if (response?.status === 201) {
+    alert("Le travail a bien été ajouté");
+    displayWork(worksContainer);
+    closeModal();
+  } else {
+    alert("Une erreur est survenue, veuillez réessayer plus tard");
+    return;
   }
 });
 
