@@ -2,7 +2,6 @@
 let works = null;
 let categories = null;
 let idToken = sessionStorage.getItem("token");
-let uploadedImg = "";
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
@@ -24,7 +23,7 @@ const uploadedImgBox = document.getElementById("uploadedImgBox");
 const workAddition = document.getElementById("workAddition");
 const addWorkForm = document.getElementById("addWorkForm");
 const newWorkTitleInput = document.getElementById("uploadTitle");
-const uploadSelect = document.getElementById("selectCategor");
+const uploadSelect = document.getElementById("selectCategory");
 
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
@@ -103,17 +102,13 @@ async function displayWork(target, worksCategory, isEditable) {
         event.stopPropagation();
         const worksToDelete = work.id;
 
-        let response = await fetch(
-          `http://localhost:5678/api/works/${worksToDelete}`,
-          {
-            method: "DELETE",
-            headers: {
-              accept: "*/*",
-              Authorization: `Bearer ${idToken}`,
-            },
-          }
-        );
-        console.log(idToken);
+        await fetch(`http://localhost:5678/api/works/${worksToDelete}`, {
+          method: "DELETE",
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
       });
     }
 
@@ -149,6 +144,7 @@ an other callbacks if needed */
 
 const openModal = function (event) {
   modalBox.style.display = "flex";
+
   modalBox.addEventListener("click", closeModal);
   modalBox
     .querySelector(".modalCloseBtn")
@@ -194,7 +190,7 @@ const closeModal = function (event) {
     .querySelector(".modalWrapperEdit")
     .removeEventListener("click", stopPropagation);
   modalBox
-    .querySelector("modalWrapperAddition")
+    .querySelector(".modalWrapperAddition")
     .removeEventListener("click", stopPropagation);
 };
 
@@ -233,8 +229,7 @@ displayWork(modalContainer, null, true);
 
 fetchCategoriesData();
 
-modalAddWorkInputBtn.addEventListener("change", function () {
-  console.log(modalAddWorkInputBtn.value);
+/*modalAddWorkInputBtn.addEventListener("change", function () {
   const reader = new FileReader();
   reader.addEventListener("load", () => {
     uploadedImg = reader.result;
@@ -244,30 +239,94 @@ modalAddWorkInputBtn.addEventListener("change", function () {
   });
   reader.readAsDataURL(this.files[0]);
 });
-
-addWorkForm.addEventListener("submit", (event) => {
+*/
+addWorkForm.addEventListener("submit", async (event) => {
+  console.log({
+    buttonTous,
+    buttonObject,
+    buttonAppartements,
+    buttonHotelRestaurant,
+    maybeWorksContainer,
+    worksContainer,
+    categoriesSelection,
+    modalContainer,
+    editionModeBand,
+    editionModeButtons,
+    modifyBtn,
+    modalBox,
+    modalAddWorkInputBtn,
+    modalAddNewWorkBtn,
+    modaladdition,
+    modalEdit,
+    uploadedImgBox,
+    modalReturnArrow,
+    addWorkForm,
+    workAddition,
+    uploadSelect,
+    newWorkTitleInput,
+  });
+  debugger;
   event.preventDefault();
-  const formData = new FormData(form);
-  const newWorkTitle = formData.get("title");
-  const newWorkCategory = formData.get("categorySelect");
-  let hasError = false;
-
-  const uploadTitle = newWorkTitle.value;
-  if (uploadTitle === "") {
-    hasError = true;
-    uploadTitle.style.border = "1px solid red";
-  } else {
-    newWorkTitleInput.style.border = "initial";
-  }
-  const uploadCategory = newWorkCategory.value;
-  if ((uploadCategory = "")) {
-    hasError = true;
-    uploadSelect.style.border = "1px solid red";
-  } else {
-    uploadSelect.style.border = "initial";
-  }
-
-  if (hasError) {
+  if (
+    sessionStorage.getItem("token") == null ||
+    sessionStorage.getItem("token") == ""
+  ) {
     return;
+  } else {
+    const formData = new FormData(addWorkForm);
+    const newWorkTitle = formData.get("title");
+    const newWorkCategory = formData.get("categoryId");
+    let hasError = false;
+
+    if (newWorkTitle === "") {
+      hasError = true;
+      uploadTitle.style.border = "1px solid red";
+      alert("Veuillez entrer un Titre");
+    } else {
+      newWorkTitleInput.style.border = "initial";
+    }
+
+    if (newWorkCategory === "") {
+      hasError = true;
+      uploadSelect.style.border = "1px solid red";
+      alert("Veuillez sélectioner une catégorie");
+    } else {
+      uploadSelect.style.border = "initial";
+    }
+
+    const reader = new FileReader();
+    reader.addEventListener("load", (event) => {
+      event.preventDefault();
+      uploadedImg = reader.result;
+      if (uploadedImg > 4000) {
+        alert(
+          "Fichier trop lourd, veuillez sélectioner un fichier de moin de 4mo."
+        );
+        workAddition.style.border = "1px solid red";
+        hasError = true;
+      }
+    });
+
+    if (hasError) {
+      return;
+    }
+
+    /*formData.append("image", modalAddWorkInputBtn.files[0]);
+    formData.append("title", newWorkTitle);
+    formData.append("categoryId", newWorkCategory);*/
+
+    const plainFormData = Object.fromEntries(formData.entries());
+    const formDataJsonString = JSON.stringify(plainFormData);
+    console.log(formDataJsonString);
+    const responsePost = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: formData,
+    });
+
+    const response = await responsePost.text();
+    console.log(response);
   }
 });

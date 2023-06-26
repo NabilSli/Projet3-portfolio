@@ -150,27 +150,25 @@
         </div>
         <h2>Ajout photo</h2>
         <form id="addWorkForm" action="#" method="post">
-          <div id="workAddition">
-            <article id="uploadedImgBox">
               <img class="pictureUpload" src="assets/images/Group(1).svg" alt="Ajouter une photo">
               <label>+ Ajouter photo
                 <input id="modalAddWorkInputBtn"
                 type="file"
                 class="modalAdditionButton"
-                accept=".jpg, .jpeg, .png"
+                accept=".jpg, .jpeg, .png" 
+                name="image"
                 />
               </label>
               <p>jpg, png : 4mo max</p>
-            </article>
-          </div>
             <label for="title">Titre</label>
             <input type="text" name="title" id="uploadTitle" />
             <label for="categorySelection">Catégorie</label>
-            <select name="categorySelect" id="selectCategory">
+            <select name="categoryId" id="selectCategory">
               <option value=""></option>
             </select>
+            <input type="submit" value="Valider" class="modalValidationBtn" id="modalValidationBtn" />
         </form>
-        <input type="submit" value="Valider" class="modalValidationBtn" id="modalValidationBtn" />
+        
     </aside>
     <script src="scripts/works.js"></script>
   </body>
