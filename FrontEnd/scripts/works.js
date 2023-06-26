@@ -2,6 +2,7 @@
 let works = null;
 let categories = null;
 let idToken = sessionStorage.getItem("token");
+let uploadedImg = null;
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
@@ -24,6 +25,7 @@ const workAddition = document.getElementById("workAddition");
 const addWorkForm = document.getElementById("addWorkForm");
 const newWorkTitleInput = document.getElementById("uploadTitle");
 const uploadSelect = document.getElementById("selectCategory");
+const uploadImgPreview = document.getElementById("uploadImgPreview");
 
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
@@ -234,8 +236,8 @@ modalAddWorkInputBtn.addEventListener("change", function () {
   reader.addEventListener("load", () => {
     uploadedImg = reader.result;
 
-    uploadedImgBox.style.display = "none";
-    workAddition.style.backgroundImage = `url(${uploadedImg})`;
+    uploadImgPreview.style.display = "none";
+    uploadedImgBox.style.backgroundImage = `url(${uploadedImg})`;
   });
   reader.readAsDataURL(this.files[0]);
 });
@@ -243,30 +245,6 @@ modalAddWorkInputBtn.addEventListener("change", function () {
 addWorkForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   event.stopImmediatePropagation();
-  console.log({
-    buttonTous,
-    buttonObject,
-    buttonAppartements,
-    buttonHotelRestaurant,
-    maybeWorksContainer,
-    worksContainer,
-    categoriesSelection,
-    modalContainer,
-    editionModeBand,
-    editionModeButtons,
-    modifyBtn,
-    modalBox,
-    modalAddWorkInputBtn,
-    modalAddNewWorkBtn,
-    modaladdition,
-    modalEdit,
-    uploadedImgBox,
-    modalReturnArrow,
-    addWorkForm,
-    workAddition,
-    uploadSelect,
-    newWorkTitleInput,
-  });
 
   if (
     sessionStorage.getItem("token") == null ||

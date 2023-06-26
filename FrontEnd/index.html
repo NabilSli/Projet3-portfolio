@@ -150,18 +150,22 @@
         </div>
         <h2>Ajout photo</h2>
         <form id="addWorkForm" action="#" method="post">
-          <div class="uploadedImgBox" id="uploadedImgBox">
-              <img class="pictureUpload" src="assets/images/Group.svg" alt="Ajouter une photo">
-              <label>+ Ajouter photo
-                <input id="modalAddWorkInputBtn"
-                type="file"
-                class="modalAdditionButton"
-                accept=".jpg, .jpeg, .png" 
-                name="image"
-                />
-              </label>
-              <p>jpg, png : 4mo max</p>
-          </div>
+          
+            <div class="uploadedImgBox" id="uploadedImgBox">
+              <div id="uploadImgPreview">
+                <img class="pictureUpload" src="assets/images/Group.svg" alt="Ajouter une photo">
+                <label>+ Ajouter photo
+                  <input id="modalAddWorkInputBtn"
+                  type="file"
+                  class="modalAdditionButton"
+                  accept=".jpg, .jpeg, .png" 
+                  name="image"
+                  />
+                </label>
+                <p>jpg, png : 4mo max</p>
+              </div>
+            </div>
+          
           <div class="workAddition" id="workAddition">
             <label for="title">Titre</label>
             <input type="text" name="title" id="uploadTitle" />

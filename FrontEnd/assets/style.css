@@ -590,6 +590,7 @@ footer nav ul {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  object-fit: contain;
 }
 
 #uploadedImgBox img {
@@ -695,9 +696,9 @@ footer nav ul {
   cursor: pointer;
 }
 
-#uploadedImgBox {
+#uploadImgPreview {
   display: flex;
   flex-direction: column;
   align-items: center;
-  object-fit: contain;
+  justify-content: center;
 }
