@@ -2,6 +2,7 @@
 let works = null;
 let categories = null;
 let idToken = sessionStorage.getItem("token");
+let uploadedImg = "";
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
@@ -14,10 +15,16 @@ const editionModeBand = document.getElementById("editorBand");
 const editionModeButtons = document.getElementsByClassName("editorBtn");
 const modifyBtn = document.getElementsByClassName("modifyBtn");
 const modalBox = document.getElementById("modal");
-const modalAddNewWorkBtn = document.getElementById("modalAddBtn");
+const modalAddNewWorkBtn = document.getElementById("modalAddNewWorkBtn");
+const modalAddWorkInputBtn = document.querySelector("#modalAddWorkInputBtn");
 const modalEdit = document.getElementById("modalWrapperEdit");
 const modaladdition = document.getElementById("modalWrapperAddition");
 const modalReturnArrow = document.getElementById("modalCloseBtn");
+const uploadedImgBox = document.getElementById("uploadedImgBox");
+const workAddition = document.getElementById("workAddition");
+const addWorkForm = document.getElementById("addWorkForm");
+const newWorkTitleInput = document.getElementById("uploadTitle");
+const uploadSelect = document.getElementById("selectCategor");
 
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
@@ -135,19 +142,6 @@ async function fetchCategoriesData() {
   }
 }
 
-/* NOTE: delete works
-async function fetchWorkToDelete() {
-  const responseWorkToDelete = await fetch(
-    "http://localhost:5678/api/works/{id}",
-    {
-      method: "delete",
-    }
-  );
-
-  const response = await responseWorkToDelete.json();
-  
-} */
-
 // NOTE: the code start running here
 
 /* NOTE: opens the modal with a new function so it be can used again in 
@@ -238,3 +232,42 @@ buttonHotelRestaurant.addEventListener("click", () => {
 displayWork(modalContainer, null, true);
 
 fetchCategoriesData();
+
+modalAddWorkInputBtn.addEventListener("change", function () {
+  console.log(modalAddWorkInputBtn.value);
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    uploadedImg = reader.result;
+
+    uploadedImgBox.style.display = "none";
+    workAddition.style.backgroundImage = `url(${uploadedImg})`;
+  });
+  reader.readAsDataURL(this.files[0]);
+});
+
+addWorkForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(form);
+  const newWorkTitle = formData.get("title");
+  const newWorkCategory = formData.get("categorySelect");
+  let hasError = false;
+
+  const uploadTitle = newWorkTitle.value;
+  if (uploadTitle === "") {
+    hasError = true;
+    uploadTitle.style.border = "1px solid red";
+  } else {
+    newWorkTitleInput.style.border = "initial";
+  }
+  const uploadCategory = newWorkCategory.value;
+  if ((uploadCategory = "")) {
+    hasError = true;
+    uploadSelect.style.border = "1px solid red";
+  } else {
+    uploadSelect.style.border = "initial";
+  }
+
+  if (hasError) {
+    return;
+  }
+});

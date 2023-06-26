@@ -134,7 +134,7 @@
             type="button"
             value="Ajouter une photo"
             class="mainButton"
-            id="modalAddBtn"
+            id="modalAddNewWorkBtn"
           />
           <input type="submit" value="supprimer la galerie" id="btnDeleteAll" />
         </div>
@@ -149,26 +149,26 @@
           </button>
         </div>
         <h2>Ajout photo</h2>
-        <div id="workAddition">
-          <img class="pictureUpload" src="assets/images/Group(1).svg" alt="Ajouter une photo">
-          <label>+ Ajouter photo
-            <input id="modalAdditionInput"
-            type="file"
-            class="modalAdditionButton"
-            id="modalAdditionBtn"
-            />
-          </label>
-          <p>jpg, png : 4mo max</p>
-        </div>
         <form id="addWorkForm" action="#" method="post">
-          <label for="title">Titre</label>
-          <input type="text" name="title" id="title" />
-          <label for="categorySelection">Catégorie</label>
-          <select name="categorySelect" id="selectCategory">
-           <!--<option value="1">Objets</option>
-            <option value="2">Appartements</option>
-            <option value="3">Hotels & restaurants</option>-->
-          </select>
+          <div id="workAddition">
+            <article id="uploadedImgBox">
+              <img class="pictureUpload" src="assets/images/Group(1).svg" alt="Ajouter une photo">
+              <label>+ Ajouter photo
+                <input id="modalAddWorkInputBtn"
+                type="file"
+                class="modalAdditionButton"
+                accept=".jpg, .jpeg, .png"
+                />
+              </label>
+              <p>jpg, png : 4mo max</p>
+            </article>
+          </div>
+            <label for="title">Titre</label>
+            <input type="text" name="title" id="uploadTitle" />
+            <label for="categorySelection">Catégorie</label>
+            <select name="categorySelect" id="selectCategory">
+              <option value=""></option>
+            </select>
         </form>
         <input type="submit" value="Valider" class="modalValidationBtn" id="modalValidationBtn" />
     </aside>
