@@ -317,7 +317,7 @@ addWorkForm.addEventListener("submit", async (event) => {
 
     const plainFormData = Object.fromEntries(formData.entries());
     const formDataJsonString = JSON.stringify(plainFormData);
-    console.log(formDataJsonString);
+
     const responsePost = await fetch("http://localhost:5678/api/works", {
       method: "POST",
       headers: {
@@ -327,6 +327,5 @@ addWorkForm.addEventListener("submit", async (event) => {
     });
 
     const response = await responsePost.text();
-    console.log(response);
   }
 });
