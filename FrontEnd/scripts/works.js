@@ -229,7 +229,7 @@ displayWork(modalContainer, null, true);
 
 fetchCategoriesData();
 
-/*modalAddWorkInputBtn.addEventListener("change", function () {
+modalAddWorkInputBtn.addEventListener("change", function () {
   const reader = new FileReader();
   reader.addEventListener("load", () => {
     uploadedImg = reader.result;
@@ -239,8 +239,10 @@ fetchCategoriesData();
   });
   reader.readAsDataURL(this.files[0]);
 });
-*/
+
 addWorkForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  event.stopImmediatePropagation();
   console.log({
     buttonTous,
     buttonObject,
@@ -265,8 +267,7 @@ addWorkForm.addEventListener("submit", async (event) => {
     uploadSelect,
     newWorkTitleInput,
   });
-  debugger;
-  event.preventDefault();
+
   if (
     sessionStorage.getItem("token") == null ||
     sessionStorage.getItem("token") == ""
@@ -311,10 +312,6 @@ addWorkForm.addEventListener("submit", async (event) => {
       return;
     }
 
-    /*formData.append("image", modalAddWorkInputBtn.files[0]);
-    formData.append("title", newWorkTitle);
-    formData.append("categoryId", newWorkCategory);*/
-
     const plainFormData = Object.fromEntries(formData.entries());
     const formDataJsonString = JSON.stringify(plainFormData);
 
@@ -329,3 +326,5 @@ addWorkForm.addEventListener("submit", async (event) => {
     const response = await responsePost.text();
   }
 });
+
+displayWork(worksContainer);

@@ -578,7 +578,7 @@ footer nav ul {
 
 /* seconde modal: work addition */
 
-#workAddition {
+#uploadedImgBox {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -592,11 +592,11 @@ footer nav ul {
   background-position: center;
 }
 
-#workAddition img {
+#uploadedImgBox img {
   margin-top: 20px;
 }
 
-#workAddition label {
+#uploadedImgBox label {
   background-color: #cbd6dc;
   padding: 10px 33px;
   border-radius: 50px;
@@ -604,11 +604,11 @@ footer nav ul {
   margin-top: 20px;
 }
 
-#workAddition label:hover {
+#uploadedImgBox label:hover {
   cursor: pointer;
 }
 
-#workAddition p {
+#uploadedImgBox p {
   color: #444444;
   font-family: "Work Sans";
   font-weight: 400;
@@ -646,7 +646,7 @@ footer nav ul {
   margin-bottom: 35px;
 }
 
-#addWorkForm {
+#workAddition {
   margin-top: 10px;
   padding-bottom: 47px;
   border-bottom: 1px solid #b3b3b3;
@@ -654,14 +654,14 @@ footer nav ul {
   flex-direction: column;
 }
 
-#addWorkForm label {
+#workAddition label {
   font-family: "Work Sans";
   font-weight: 500;
   margin: 20px 0 10px 0;
 }
 
-#addWorkForm input,
-#addWorkForm select {
+#workAddition input,
+#workAddition select {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   background-color: var(--main-white);
   border: none;
@@ -671,10 +671,24 @@ footer nav ul {
 }
 
 #modalValidationBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #a7a7a7;
   width: 240px;
   height: 36px;
   border: none;
+  border-radius: 60px;
+  color: var(--main-white);
+  font-family: "Syne";
+  font-weight: 700;
+}
+
+#modalSubmitBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
 }
 
 #modalValidationBtn:hover {

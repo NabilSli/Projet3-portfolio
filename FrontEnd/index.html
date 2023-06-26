@@ -59,7 +59,7 @@
               </p>
               <p>
                 En cas de besoin, une équipe pluridisciplinaire peut-être
-                constituée : architecte DPLG, décorateur(trice)
+                constituée: architecte DPLG, décorateur(trice)
               </p>
             </article>
           </div>
@@ -150,6 +150,7 @@
         </div>
         <h2>Ajout photo</h2>
         <form id="addWorkForm" action="#" method="post">
+          <div class="uploadedImgBox" id="uploadedImgBox">
               <img class="pictureUpload" src="assets/images/Group.svg" alt="Ajouter une photo">
               <label>+ Ajouter photo
                 <input id="modalAddWorkInputBtn"
@@ -160,13 +161,18 @@
                 />
               </label>
               <p>jpg, png : 4mo max</p>
+          </div>
+          <div class="workAddition" id="workAddition">
             <label for="title">Titre</label>
             <input type="text" name="title" id="uploadTitle" />
             <label for="categorySelection">Catégorie</label>
             <select name="categoryId" id="selectCategory">
               <option value=""></option>
             </select>
-            <input type="submit" value="Valider" class="modalValidationBtn" id="modalValidationBtn" />
+          </div>
+          <div id="modalSubmitBtn">
+            <button type="submit" class="modalValidationBtn" id="modalValidationBtn">Valider</button>
+          </div>
         </form>
         
     </aside>
