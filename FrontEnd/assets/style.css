@@ -443,9 +443,17 @@ footer nav ul {
   margin-top: 16px;
 }
 
-#btnModifier a {
+.modifyBtn {
   color: var(--main-black);
   text-decoration: none;
+  border: none;
+  background-color: var(--main-background);
+  font-family: "Work Sans";
+  font-weight: 400;
+}
+
+.modifyBtn:hover {
+  cursor: pointer;
 }
 
 #portfolioTitle {
@@ -675,7 +683,7 @@ footer nav ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #a7a7a7;
+  background-color: var(--primary-color);
   width: 240px;
   height: 36px;
   border: none;
@@ -683,6 +691,10 @@ footer nav ul {
   color: var(--main-white);
   font-family: "Syne";
   font-weight: 700;
+}
+
+#modalValidationBtn:disabled {
+  background-color: #a7a7a7;
 }
 
 #modalSubmitBtn {

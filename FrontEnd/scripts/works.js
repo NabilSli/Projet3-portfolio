@@ -26,6 +26,7 @@ const addWorkForm = document.getElementById("addWorkForm");
 const newWorkTitleInput = document.getElementById("uploadTitle");
 const uploadSelect = document.getElementById("selectCategory");
 const uploadImgPreview = document.getElementById("uploadImgPreview");
+const modalValidationBtn = document.getElementById("modalValidationBtn");
 
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
@@ -240,6 +241,7 @@ displayWork(modalContainer, null, true);
 
 fetchCategoriesData();
 
+// NOTE: preview the selecter image file
 modalAddWorkInputBtn.addEventListener("change", function () {
   const reader = new FileReader();
   reader.addEventListener("load", () => {
@@ -249,30 +251,55 @@ modalAddWorkInputBtn.addEventListener("change", function () {
   reader.readAsDataURL(this.files[0]);
 });
 
+// NOTE: validate inputs before unabling submit button
+
+function setSubmbitBtnStatus() {
+  if (isCategoryValid && isTitleValid && isImageValid) {
+    modalValidationBtn.disabled = false;
+  } else {
+    modalValidationBtn.disabled = true;
+  }
+}
+setSubmbitBtnStatus(false);
+
+let isImageValid = false;
 modalAddWorkInputBtn.addEventListener("change", (event) => {
   const currentSize = modalAddWorkInputBtn.files.item(0).size;
   if (currentSize === 0 || currentSize > 4000000) {
     uploadedImgBox.style.border = "1px solid red";
+    isImageValid = false;
   } else {
     uploadedImgBox.style.border = "initial";
+    isImageValid = true;
   }
+
+  setSubmbitBtnStatus();
 });
 
+let isTitleValid = false;
 newWorkTitleInput.addEventListener("change", (event) => {
   if (event.target.value === "") {
     newWorkTitleInput.style.border = "1px solid red";
+    isTitleValid = false;
   } else {
+    isTitleValid = true;
     newWorkTitleInput.style.border = "initial";
   }
+
+  setSubmbitBtnStatus();
 });
 
+let isCategoryValid = false;
 uploadSelect.addEventListener("change", (event) => {
   if (event.target.value === "") {
     uploadSelect.style.border = "1px solid red";
-    return;
+    isCategoryValid = false;
   } else {
     newWorkTitleInput.style.border = "initial";
+    isCategoryValid = true;
   }
+
+  setSubmbitBtnStatus();
 });
 
 addWorkForm.addEventListener("submit", async (event) => {
@@ -287,7 +314,6 @@ addWorkForm.addEventListener("submit", async (event) => {
   }
 
   const formData = new FormData(addWorkForm);
-
   const newWorkTitle = formData.get("title");
   const newWorkCategory = formData.get("category");
   const newWorkImage = formData.get("image");
@@ -333,7 +359,7 @@ addWorkForm.addEventListener("submit", async (event) => {
   if (response?.status === 201) {
     console.log("Le travail a bien été ajouté");
     displayWork(worksContainer, null, false, true);
-    displayWork(modalContainer, null, false, true);
+    displayWork(modalContainer, null, true, true);
     closeModal();
     resetPreview();
   } else {
