@@ -264,6 +264,7 @@ addWorkForm.addEventListener("submit", async (event) => {
 
   const newWorkTitle = formData.get("title");
   const newWorkCategory = formData.get("category");
+  const newWorkImage = formData.get("image");
 
   let hasError = false;
 
@@ -285,6 +286,12 @@ addWorkForm.addEventListener("submit", async (event) => {
     uploadSelect.style.border = "initial";
   }
 
+  if (newWorkImage.size === 0 || newWorkImage.size > 4000000) {
+    hasError = true;
+    uploadedImgBox.style.border = "1px solid red";
+    alert("Veuillez sélectioner une autre image");
+  }
+
   if (hasError) {
     return;
   }
@@ -300,9 +307,17 @@ addWorkForm.addEventListener("submit", async (event) => {
   if (response?.status === 201) {
     console.log("Le travail a bien été ajouté");
     displayWork(worksContainer, null, false, true);
+    displayWork(modalContainer, null, false, true);
     closeModal();
+    resetPreview();
   } else {
     console.log("Une erreur est survenue, veuillez réessayer plus tard");
     return;
   }
 });
+
+const resetPreview = function () {
+  addWorkForm.reset();
+  uploadedImgBox.style.backgroundImage = `url(${""})`;
+  uploadImgPreview.style.display = "flex";
+};
