@@ -142,7 +142,6 @@ async function fetchCategoriesData() {
     const optionFiler = document.createElement("option");
     optionFiler.value = `${optionCategory[i].id}` ?? "aucune catégorie";
     optionFiler.innerText = `${optionCategory[i].name}` ?? "sans noms";
-    console.log(optionCategory[i].id);
     optionFiler.setAttribute("value", optionCategory[i].id);
     categoriesSelection.appendChild(optionFiler);
   }
@@ -253,7 +252,6 @@ modalAddWorkInputBtn.addEventListener("change", function () {
 addWorkForm.addEventListener("submit", async (event) => {
   event.stopPropagation();
   event.preventDefault();
-  console.log("ca marche 1");
 
   if (
     sessionStorage.getItem("token") == null ||
@@ -262,14 +260,12 @@ addWorkForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  console.log("ca marche 2");
   const formData = new FormData(addWorkForm);
 
   const newWorkTitle = formData.get("title");
   const newWorkCategory = formData.get("category");
   const newWorkImage = formData.get("image");
 
-  console.log(newWorkImage);
   let hasError = false;
 
   if (newWorkTitle === "") {
@@ -290,14 +286,10 @@ addWorkForm.addEventListener("submit", async (event) => {
     uploadSelect.style.border = "initial";
   }
 
-  // console.log(newWorkCategory);
-
   const formDataToSend = new FormData();
   formDataToSend.append("title", newWorkTitle);
   formDataToSend.append("category", newWorkCategory);
   formDataToSend.append("image", newWorkImage);
-
-  console.log(newWorkImage);
 
   if (hasError) {
     return;
