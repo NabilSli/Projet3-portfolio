@@ -2,7 +2,7 @@
 let works = null;
 let categories = null;
 let idToken = sessionStorage.getItem("token");
-let uploadedImg = null;
+
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
@@ -244,10 +244,8 @@ fetchCategoriesData();
 modalAddWorkInputBtn.addEventListener("change", function () {
   const reader = new FileReader();
   reader.addEventListener("load", () => {
-    uploadedImg = reader.result;
-
     uploadImgPreview.style.display = "none";
-    uploadedImgBox.style.backgroundImage = `url(${uploadedImg})`;
+    uploadedImgBox.style.backgroundImage = `url(${reader.result})`;
   });
   reader.readAsDataURL(this.files[0]);
 });
@@ -256,7 +254,7 @@ addWorkForm.addEventListener("submit", async (event) => {
   event.stopPropagation();
   event.preventDefault();
   console.log("ca marche 1");
-  // debugger;
+
   if (
     sessionStorage.getItem("token") == null ||
     sessionStorage.getItem("token") == ""
