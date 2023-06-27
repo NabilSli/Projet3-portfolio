@@ -264,7 +264,6 @@ addWorkForm.addEventListener("submit", async (event) => {
 
   const newWorkTitle = formData.get("title");
   const newWorkCategory = formData.get("category");
-  const newWorkImage = formData.get("image");
 
   let hasError = false;
 
@@ -286,11 +285,6 @@ addWorkForm.addEventListener("submit", async (event) => {
     uploadSelect.style.border = "initial";
   }
 
-  const formDataToSend = new FormData();
-  formDataToSend.append("title", newWorkTitle);
-  formDataToSend.append("category", newWorkCategory);
-  formDataToSend.append("image", newWorkImage);
-
   if (hasError) {
     return;
   }
@@ -300,7 +294,7 @@ addWorkForm.addEventListener("submit", async (event) => {
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
-    body: formDataToSend,
+    body: formData,
   });
 
   if (response?.status === 201) {
