@@ -55,12 +55,17 @@ async function fetchWorkData() {
 }
 
 // TODO: merge `worksCategory` and `isEditable` into an option object
-async function displayWork(target, worksCategory, isEditable) {
+async function displayWork(
+  target,
+  worksCategory,
+  isEditable,
+  forceFetch = false
+) {
   // NOTE: put a text message while the js is executing
   worksContainer.innerHTML = "loading ...";
 
   // NOTE: set works if its not already set, in order to call the api only when needed
-  if (!works) {
+  if (!works || forceFetch) {
     works = await fetchWorkData();
   }
 
@@ -111,6 +116,8 @@ async function displayWork(target, worksCategory, isEditable) {
             Authorization: `Bearer ${idToken}`,
           },
         });
+        displayWork(worksContainer, null, false, true);
+        displayWork(modalContainer, null, true, true);
       });
     }
 
@@ -182,7 +189,7 @@ modalReturnArrow.addEventListener("click", function (event) {
 
 // NOTE: CLoses the modal
 const closeModal = function (event) {
-  event.preventDefault();
+  if (event) event.preventDefault();
   if (modalBox === null) return;
   modalBox.style.display = "none";
   modalEdit.style.display = "flex";
@@ -298,7 +305,7 @@ addWorkForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  const response = await axios("http://localhost:5678/api/works", {
+  const response = await fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -307,13 +314,11 @@ addWorkForm.addEventListener("submit", async (event) => {
   });
 
   if (response?.status === 201) {
-    alert("Le travail a bien été ajouté");
-    displayWork(worksContainer);
+    console.log("Le travail a bien été ajouté");
+    displayWork(worksContainer, null, false, true);
     closeModal();
   } else {
-    alert("Une erreur est survenue, veuillez réessayer plus tard");
+    console.log("Une erreur est survenue, veuillez réessayer plus tard");
     return;
   }
 });
-
-displayWork(worksContainer);
