@@ -2,7 +2,7 @@
 let works = null;
 let categories = null;
 let idToken = sessionStorage.getItem("token");
-let uploadedImg = "";
+
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
@@ -24,7 +24,8 @@ const uploadedImgBox = document.getElementById("uploadedImgBox");
 const workAddition = document.getElementById("workAddition");
 const addWorkForm = document.getElementById("addWorkForm");
 const newWorkTitleInput = document.getElementById("uploadTitle");
-const uploadSelect = document.getElementById("selectCategor");
+const uploadSelect = document.getElementById("selectCategory");
+const uploadImgPreview = document.getElementById("uploadImgPreview");
 
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
@@ -54,12 +55,17 @@ async function fetchWorkData() {
 }
 
 // TODO: merge `worksCategory` and `isEditable` into an option object
-async function displayWork(target, worksCategory, isEditable) {
+async function displayWork(
+  target,
+  worksCategory,
+  isEditable,
+  forceFetch = false
+) {
   // NOTE: put a text message while the js is executing
   worksContainer.innerHTML = "loading ...";
 
   // NOTE: set works if its not already set, in order to call the api only when needed
-  if (!works) {
+  if (!works || forceFetch) {
     works = await fetchWorkData();
   }
 
@@ -103,17 +109,15 @@ async function displayWork(target, worksCategory, isEditable) {
         event.stopPropagation();
         const worksToDelete = work.id;
 
-        let response = await fetch(
-          `http://localhost:5678/api/works/${worksToDelete}`,
-          {
-            method: "DELETE",
-            headers: {
-              accept: "*/*",
-              Authorization: `Bearer ${idToken}`,
-            },
-          }
-        );
-        console.log(idToken);
+        await fetch(`http://localhost:5678/api/works/${worksToDelete}`, {
+          method: "DELETE",
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+        displayWork(worksContainer, null, false, true);
+        displayWork(modalContainer, null, true, true);
       });
     }
 
@@ -138,6 +142,7 @@ async function fetchCategoriesData() {
     const optionFiler = document.createElement("option");
     optionFiler.value = `${optionCategory[i].id}` ?? "aucune catégorie";
     optionFiler.innerText = `${optionCategory[i].name}` ?? "sans noms";
+    optionFiler.setAttribute("value", optionCategory[i].id);
     categoriesSelection.appendChild(optionFiler);
   }
 }
@@ -149,6 +154,7 @@ an other callbacks if needed */
 
 const openModal = function (event) {
   modalBox.style.display = "flex";
+
   modalBox.addEventListener("click", closeModal);
   modalBox
     .querySelector(".modalCloseBtn")
@@ -182,6 +188,7 @@ modalReturnArrow.addEventListener("click", function (event) {
 
 // NOTE: CLoses the modal
 const closeModal = function (event) {
+  if (event) event.preventDefault();
   if (modalBox === null) return;
   modalBox.style.display = "none";
   modalEdit.style.display = "flex";
@@ -194,7 +201,7 @@ const closeModal = function (event) {
     .querySelector(".modalWrapperEdit")
     .removeEventListener("click", stopPropagation);
   modalBox
-    .querySelector("modalWrapperAddition")
+    .querySelector(".modalWrapperAddition")
     .removeEventListener("click", stopPropagation);
 };
 
@@ -234,40 +241,68 @@ displayWork(modalContainer, null, true);
 fetchCategoriesData();
 
 modalAddWorkInputBtn.addEventListener("change", function () {
-  console.log(modalAddWorkInputBtn.value);
   const reader = new FileReader();
   reader.addEventListener("load", () => {
-    uploadedImg = reader.result;
-
-    uploadedImgBox.style.display = "none";
-    workAddition.style.backgroundImage = `url(${uploadedImg})`;
+    uploadImgPreview.style.display = "none";
+    uploadedImgBox.style.backgroundImage = `url(${reader.result})`;
   });
   reader.readAsDataURL(this.files[0]);
 });
 
-addWorkForm.addEventListener("submit", (event) => {
+addWorkForm.addEventListener("submit", async (event) => {
+  event.stopPropagation();
   event.preventDefault();
-  const formData = new FormData(form);
+
+  if (
+    sessionStorage.getItem("token") == null ||
+    sessionStorage.getItem("token") == ""
+  ) {
+    return;
+  }
+
+  const formData = new FormData(addWorkForm);
+
   const newWorkTitle = formData.get("title");
-  const newWorkCategory = formData.get("categorySelect");
+  const newWorkCategory = formData.get("category");
+
   let hasError = false;
 
-  const uploadTitle = newWorkTitle.value;
-  if (uploadTitle === "") {
+  if (newWorkTitle === "") {
     hasError = true;
     uploadTitle.style.border = "1px solid red";
+    alert("Veuillez entrer un Titre");
+    return;
   } else {
     newWorkTitleInput.style.border = "initial";
   }
-  const uploadCategory = newWorkCategory.value;
-  if ((uploadCategory = "")) {
+
+  if (newWorkCategory === "") {
     hasError = true;
     uploadSelect.style.border = "1px solid red";
+    alert("Veuillez sélectioner une catégorie");
+    return;
   } else {
     uploadSelect.style.border = "initial";
   }
 
   if (hasError) {
+    return;
+  }
+
+  const response = await fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    },
+    body: formData,
+  });
+
+  if (response?.status === 201) {
+    console.log("Le travail a bien été ajouté");
+    displayWork(worksContainer, null, false, true);
+    closeModal();
+  } else {
+    console.log("Une erreur est survenue, veuillez réessayer plus tard");
     return;
   }
 });

@@ -59,14 +59,14 @@
               </p>
               <p>
                 En cas de besoin, une équipe pluridisciplinaire peut-être
-                constituée : architecte DPLG, décorateur(trice)
+                constituée: architecte DPLG, décorateur(trice)
               </p>
             </article>
           </div>
           <div class="editorBtn">
             <aside id="btnModifier">
               <i class="fa-regular fa-pen-to-square"></i>
-              <p><a href="#modal" class="modifyBtn js-modal">modifier</a></p>
+              <p><button class="modifyBtn js-modal">modifier</button></p>
             </aside>
           </div>
         </section>
@@ -76,19 +76,19 @@
             <div class="editorBtn">
               <aside id="btnModifier">
                 <i class="fa-regular fa-pen-to-square"></i>
-                <p><a href="#modal" class="modifyBtn js-modal">modifier</a></p>
+                <p><button class="modifyBtn js-modal">modifier</button></p>
               </aside>
             </div>
           </section>
           <section class="filterButton">
-            <button type="submit" class="mainButton" id="btnTous">Tous</button>
-            <button type="submit" class="mainButton" id="btnObjets">
+            <button type="button" class="mainButton" id="btnTous">Tous</button>
+            <button type="button" class="mainButton" id="btnObjets">
               Objets
             </button>
-            <button type="submit" class="mainButton" id="btnAppartements">
+            <button type="button" class="mainButton" id="btnAppartements">
               Appartements
             </button>
-            <button type="submit" class="mainButton" id="btnHotelRestaurant">
+            <button type="button" class="mainButton" id="btnHotelRestaurant">
               Hôtels & restaurants
             </button>
           </section>
@@ -97,7 +97,7 @@
         <section id="contact">
           <h2>Contact</h2>
           <p>Vous avez un projet ? Discutons-en !</p>
-          <form action="#" method="post">
+          <form onsubmit="(event) => event.preventDefault()">
             <label for="name">Nom</label>
             <input type="text" name="name" id="name" />
             <label for="email">Email</label>
@@ -149,28 +149,36 @@
           </button>
         </div>
         <h2>Ajout photo</h2>
-        <form id="addWorkForm" action="#" method="post">
-          <div id="workAddition">
-            <article id="uploadedImgBox">
-              <img class="pictureUpload" src="assets/images/Group(1).svg" alt="Ajouter une photo">
-              <label>+ Ajouter photo
-                <input id="modalAddWorkInputBtn"
-                type="file"
-                class="modalAdditionButton"
-                accept=".jpg, .jpeg, .png"
-                />
-              </label>
-              <p>jpg, png : 4mo max</p>
-            </article>
-          </div>
+        <form id="addWorkForm">
+          
+            <div class="uploadedImgBox" id="uploadedImgBox">
+              <div id="uploadImgPreview">
+                <img class="pictureUpload" src="assets/images/Group.svg" alt="Ajouter une photo">
+                <label>+ Ajouter photo
+                  <input id="modalAddWorkInputBtn"
+                  type="file"
+                  class="modalAdditionButton"
+                  accept=".jpg, .jpeg, .png" 
+                  name="image"
+                  />
+                </label>
+                <p>jpg, png : 4mo max</p>
+              </div>
+            </div>
+          
+          <div class="workAddition" id="workAddition">
             <label for="title">Titre</label>
             <input type="text" name="title" id="uploadTitle" />
             <label for="categorySelection">Catégorie</label>
-            <select name="categorySelect" id="selectCategory">
+            <select name="category" id="selectCategory">
               <option value=""></option>
             </select>
+          </div>
+          <div id="modalSubmitBtn">
+            <button type="submit" class="modalValidationBtn" id="modalValidationBtn">Valider</button>
+          </div>
         </form>
-        <input type="submit" value="Valider" class="modalValidationBtn" id="modalValidationBtn" />
+        
     </aside>
     <script src="scripts/works.js"></script>
   </body>
