@@ -249,6 +249,32 @@ modalAddWorkInputBtn.addEventListener("change", function () {
   reader.readAsDataURL(this.files[0]);
 });
 
+modalAddWorkInputBtn.addEventListener("change", (event) => {
+  const currentSize = modalAddWorkInputBtn.files.item(0).size;
+  if (currentSize === 0 || currentSize > 4000000) {
+    uploadedImgBox.style.border = "1px solid red";
+  } else {
+    uploadedImgBox.style.border = "initial";
+  }
+});
+
+newWorkTitleInput.addEventListener("change", (event) => {
+  if (event.target.value === "") {
+    newWorkTitleInput.style.border = "1px solid red";
+  } else {
+    newWorkTitleInput.style.border = "initial";
+  }
+});
+
+uploadSelect.addEventListener("change", (event) => {
+  if (event.target.value === "") {
+    uploadSelect.style.border = "1px solid red";
+    return;
+  } else {
+    newWorkTitleInput.style.border = "initial";
+  }
+});
+
 addWorkForm.addEventListener("submit", async (event) => {
   event.stopPropagation();
   event.preventDefault();
