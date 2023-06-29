@@ -302,6 +302,8 @@ uploadSelect.addEventListener("change", (event) => {
   setSubmbitBtnStatus();
 });
 
+// NOTE: submit new work after validating the form and displays the new works
+// without reloading
 addWorkForm.addEventListener("submit", async (event) => {
   event.stopPropagation();
   event.preventDefault();
@@ -318,33 +320,7 @@ addWorkForm.addEventListener("submit", async (event) => {
   const newWorkCategory = formData.get("category");
   const newWorkImage = formData.get("image");
 
-  let hasError = false;
-
-  if (newWorkTitle === "") {
-    hasError = true;
-    uploadTitle.style.border = "1px solid red";
-    alert("Veuillez entrer un Titre");
-    return;
-  } else {
-    newWorkTitleInput.style.border = "initial";
-  }
-
-  if (newWorkCategory === "") {
-    hasError = true;
-    uploadSelect.style.border = "1px solid red";
-    alert("Veuillez sélectioner une catégorie");
-    return;
-  } else {
-    uploadSelect.style.border = "initial";
-  }
-
-  if (newWorkImage.size === 0 || newWorkImage.size > 4000000) {
-    hasError = true;
-    uploadedImgBox.style.border = "1px solid red";
-    alert("Veuillez sélectioner une autre image");
-  }
-
-  if (hasError) {
+  if (!isCategoryValid && !isTitleValid && !isImageValid) {
     return;
   }
 
@@ -368,6 +344,7 @@ addWorkForm.addEventListener("submit", async (event) => {
   }
 });
 
+// NOTE: clean the preview of uploaded image after submitting new work
 const resetPreview = function () {
   addWorkForm.reset();
   uploadedImgBox.style.backgroundImage = `url(${""})`;

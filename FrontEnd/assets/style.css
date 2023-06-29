@@ -114,6 +114,7 @@ section {
   --main-black: #000000;
   --main-white: #ffffff;
   --add-work-modal: #e8f1f7;
+  --disbled-button: #a7a7a7;
 }
 
 body {
@@ -340,6 +341,7 @@ input[type="submit"] {
 footer {
   display: flex;
   justify-content: end;
+  background-color: var(--main-white);
 }
 
 footer nav ul {
@@ -519,6 +521,7 @@ footer nav ul {
 
 #modalAddNewWorkBtn {
   margin: 0;
+  padding: 10px 50px;
 }
 
 .mainButton:hover {
@@ -658,7 +661,7 @@ footer nav ul {
 #workAddition {
   margin-top: 10px;
   padding-bottom: 47px;
-  border-bottom: 1px solid #b3b3b3;
+  border-bottom: 1px solid var(--disbled-button);
   display: flex;
   flex-direction: column;
 }
@@ -694,7 +697,7 @@ footer nav ul {
 }
 
 #modalValidationBtn:disabled {
-  background-color: #a7a7a7;
+  background-color: var(--disbled-button);
 }
 
 #modalSubmitBtn {
