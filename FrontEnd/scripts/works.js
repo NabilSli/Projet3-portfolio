@@ -26,6 +26,7 @@ const addWorkForm = document.getElementById("addWorkForm");
 const newWorkTitleInput = document.getElementById("uploadTitle");
 const uploadSelect = document.getElementById("selectCategory");
 const uploadImgPreview = document.getElementById("uploadImgPreview");
+const modalValidationBtn = document.getElementById("modalValidationBtn");
 
 /* NOTE: verify that we have an identification token in the session storage,
  meaning the user is correctly logged in and can have access to modifications */
@@ -78,6 +79,7 @@ async function displayWork(
       ? works.filter((work) => work.category.name === worksCategory)
       : works;
 
+  // NOTE: create cards for each work in the gallery and in the modal
   worksToDisplay.forEach((work) => {
     // NOTE: creats the html elements for each project form the backend
     const workFigure = document.createElement("figure");
@@ -87,7 +89,7 @@ async function displayWork(
     workImage.setAttribute("src", work.imageUrl);
     workImage.setAttribute("alt", work.title);
 
-    // NOTE: adds to elements to the parent html container "gallery" cold before
+    // NOTE: adds elements to the parent html container "gallery" called before
     workFigure.appendChild(workImage);
 
     // NOTE: changes card title if the galery is in the core page or in the modal
@@ -151,7 +153,6 @@ async function fetchCategoriesData() {
 
 /* NOTE: opens the modal with a new function so it be can used again in 
 an other callbacks if needed */
-
 const openModal = function (event) {
   modalBox.style.display = "flex";
 
@@ -181,6 +182,7 @@ modalAddNewWorkBtn.addEventListener("click", function (event) {
     .addEventListener("click", closeModal);
 });
 
+// NOTE: Return to the first modal
 modalReturnArrow.addEventListener("click", function (event) {
   modaladdition.style.display = "none";
   modalEdit.style.display = "flex";
@@ -210,6 +212,7 @@ const stopPropagation = function (event) {
   event.stopPropagation();
 };
 
+// NOTE: closes the modal when you press escape key on keyboard
 window.addEventListener("keydown", function (event) {
   if (event.key === "Escape" || event.key === "Esc") {
     closeModal(event);
@@ -240,6 +243,7 @@ displayWork(modalContainer, null, true);
 
 fetchCategoriesData();
 
+// NOTE: preview the selected image file
 modalAddWorkInputBtn.addEventListener("change", function () {
   const reader = new FileReader();
   reader.addEventListener("load", () => {
@@ -249,6 +253,58 @@ modalAddWorkInputBtn.addEventListener("change", function () {
   reader.readAsDataURL(this.files[0]);
 });
 
+// NOTE: validation of inputs before unabling submit button
+modalValidationBtn.disabled = true;
+function setSubmbitBtnStatus() {
+  if (isCategoryValid && isTitleValid && isImageValid) {
+    modalValidationBtn.disabled = false;
+  } else {
+    modalValidationBtn.disabled = true;
+  }
+}
+
+let isImageValid = false;
+modalAddWorkInputBtn.addEventListener("change", (event) => {
+  const currentSize = modalAddWorkInputBtn.files.item(0).size;
+  if (currentSize === 0 || currentSize > 4000000) {
+    uploadedImgBox.style.border = "1px solid red";
+    isImageValid = false;
+  } else {
+    uploadedImgBox.style.border = "initial";
+    isImageValid = true;
+  }
+
+  setSubmbitBtnStatus();
+});
+
+let isTitleValid = false;
+newWorkTitleInput.addEventListener("change", (event) => {
+  if (event.target.value === "") {
+    newWorkTitleInput.style.border = "1px solid red";
+    isTitleValid = false;
+  } else {
+    isTitleValid = true;
+    newWorkTitleInput.style.border = "initial";
+  }
+
+  setSubmbitBtnStatus();
+});
+
+let isCategoryValid = false;
+uploadSelect.addEventListener("change", (event) => {
+  if (event.target.value === "") {
+    uploadSelect.style.border = "1px solid red";
+    isCategoryValid = false;
+  } else {
+    newWorkTitleInput.style.border = "initial";
+    isCategoryValid = true;
+  }
+
+  setSubmbitBtnStatus();
+});
+
+/* NOTE: submit new work after validating the form and displays the new works
+without reloading*/
 addWorkForm.addEventListener("submit", async (event) => {
   event.stopPropagation();
   event.preventDefault();
@@ -260,35 +316,11 @@ addWorkForm.addEventListener("submit", async (event) => {
     return;
   }
 
+  if (!isCategoryValid && !isTitleValid && !isImageValid) {
+    return;
+  }
+
   const formData = new FormData(addWorkForm);
-
-  const newWorkTitle = formData.get("title");
-  const newWorkCategory = formData.get("category");
-
-  let hasError = false;
-
-  if (newWorkTitle === "") {
-    hasError = true;
-    uploadTitle.style.border = "1px solid red";
-    alert("Veuillez entrer un Titre");
-    return;
-  } else {
-    newWorkTitleInput.style.border = "initial";
-  }
-
-  if (newWorkCategory === "") {
-    hasError = true;
-    uploadSelect.style.border = "1px solid red";
-    alert("Veuillez sélectioner une catégorie");
-    return;
-  } else {
-    uploadSelect.style.border = "initial";
-  }
-
-  if (hasError) {
-    return;
-  }
-
   const response = await fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
@@ -297,12 +329,23 @@ addWorkForm.addEventListener("submit", async (event) => {
     body: formData,
   });
 
+  /* NOTE: verification of the post and display new work in gallery and
+  in the modal without relaoding*/
   if (response?.status === 201) {
     console.log("Le travail a bien été ajouté");
     displayWork(worksContainer, null, false, true);
+    displayWork(modalContainer, null, true, true);
     closeModal();
+    resetPreview();
   } else {
     console.log("Une erreur est survenue, veuillez réessayer plus tard");
     return;
   }
 });
+
+// NOTE: clean the preview of uploaded image after submitting new work
+const resetPreview = function () {
+  addWorkForm.reset();
+  uploadedImgBox.style.backgroundImage = `url(${""})`;
+  uploadImgPreview.style.display = "flex";
+};
