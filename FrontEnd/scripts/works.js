@@ -316,15 +316,11 @@ addWorkForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  const formData = new FormData(addWorkForm);
-  const newWorkTitle = formData.get("title");
-  const newWorkCategory = formData.get("category");
-  const newWorkImage = formData.get("image");
-
   if (!isCategoryValid && !isTitleValid && !isImageValid) {
     return;
   }
 
+  const formData = new FormData(addWorkForm);
   const response = await fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
