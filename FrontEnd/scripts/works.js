@@ -260,7 +260,6 @@ function setSubmbitBtnStatus() {
     modalValidationBtn.disabled = true;
   }
 }
-setSubmbitBtnStatus(false);
 
 let isImageValid = false;
 modalAddWorkInputBtn.addEventListener("change", (event) => {
