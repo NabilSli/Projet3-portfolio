@@ -79,6 +79,7 @@ async function displayWork(
       ? works.filter((work) => work.category.name === worksCategory)
       : works;
 
+  // NOTE: create cards for each work in the gallery and in the modal
   worksToDisplay.forEach((work) => {
     // NOTE: creats the html elements for each project form the backend
     const workFigure = document.createElement("figure");
@@ -88,7 +89,7 @@ async function displayWork(
     workImage.setAttribute("src", work.imageUrl);
     workImage.setAttribute("alt", work.title);
 
-    // NOTE: adds to elements to the parent html container "gallery" cold before
+    // NOTE: adds elements to the parent html container "gallery" called before
     workFigure.appendChild(workImage);
 
     // NOTE: changes card title if the galery is in the core page or in the modal
@@ -152,7 +153,6 @@ async function fetchCategoriesData() {
 
 /* NOTE: opens the modal with a new function so it be can used again in 
 an other callbacks if needed */
-
 const openModal = function (event) {
   modalBox.style.display = "flex";
 
@@ -182,6 +182,7 @@ modalAddNewWorkBtn.addEventListener("click", function (event) {
     .addEventListener("click", closeModal);
 });
 
+// NOTE: Return to the first modal
 modalReturnArrow.addEventListener("click", function (event) {
   modaladdition.style.display = "none";
   modalEdit.style.display = "flex";
@@ -211,6 +212,7 @@ const stopPropagation = function (event) {
   event.stopPropagation();
 };
 
+// NOTE: closes the modal when you press escape key on keyboard
 window.addEventListener("keydown", function (event) {
   if (event.key === "Escape" || event.key === "Esc") {
     closeModal(event);
@@ -241,7 +243,7 @@ displayWork(modalContainer, null, true);
 
 fetchCategoriesData();
 
-// NOTE: preview the selecter image file
+// NOTE: preview the selected image file
 modalAddWorkInputBtn.addEventListener("change", function () {
   const reader = new FileReader();
   reader.addEventListener("load", () => {
@@ -251,8 +253,7 @@ modalAddWorkInputBtn.addEventListener("change", function () {
   reader.readAsDataURL(this.files[0]);
 });
 
-// NOTE: validate inputs before unabling submit button
-
+// NOTE: validation of inputs before unabling submit button
 modalValidationBtn.disabled = true;
 function setSubmbitBtnStatus() {
   if (isCategoryValid && isTitleValid && isImageValid) {
@@ -302,8 +303,8 @@ uploadSelect.addEventListener("change", (event) => {
   setSubmbitBtnStatus();
 });
 
-// NOTE: submit new work after validating the form and displays the new works
-// without reloading
+/* NOTE: submit new work after validating the form and displays the new works
+without reloading*/
 addWorkForm.addEventListener("submit", async (event) => {
   event.stopPropagation();
   event.preventDefault();
@@ -332,6 +333,8 @@ addWorkForm.addEventListener("submit", async (event) => {
     body: formData,
   });
 
+  /* NOTE: verification of the post and display new work in gallery and
+  in the modal without relaoding*/
   if (response?.status === 201) {
     console.log("Le travail a bien été ajouté");
     displayWork(worksContainer, null, false, true);
