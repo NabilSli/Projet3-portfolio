@@ -253,6 +253,7 @@ modalAddWorkInputBtn.addEventListener("change", function () {
 
 // NOTE: validate inputs before unabling submit button
 
+modalValidationBtn.disabled = true;
 function setSubmbitBtnStatus() {
   if (isCategoryValid && isTitleValid && isImageValid) {
     modalValidationBtn.disabled = false;
