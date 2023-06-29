@@ -4,7 +4,7 @@ This website is one of my first JavaScript achievements as a web developer👏. 
 
 # 👁️‍🗨️ Preview
 
-![See the web site](https://lighthearted-strudel-c7e715.netlify.app)
+[See the web site](https://lighthearted-strudel-c7e715.netlify.app)
 
 ## ⭐️ Use the full range of knowledge acquired during the courses.
 
