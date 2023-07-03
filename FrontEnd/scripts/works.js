@@ -3,6 +3,7 @@ let works = null;
 let categories = null;
 let idToken = sessionStorage.getItem("token");
 
+const loging = document.getElementById("loging");
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
@@ -37,6 +38,7 @@ if (
   editionModeBand.style.display = "none";
 } else {
   editionModeBand.style.display = "flex";
+  loging.innerText = "logout";
   for (modificationButton of editionModeButtons) {
     modificationButton.style.display = "flex";
   }
