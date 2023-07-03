@@ -316,7 +316,18 @@ addWorkForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  if (!isCategoryValid && !isTitleValid && !isImageValid) {
+  if (!isCategoryValid) {
+    uploadSelect.style.border = "1px solid red";
+    return;
+  }
+
+  if (!isImageValid) {
+    uploadedImgBox.style.border = "1px solid red";
+    return;
+  }
+
+  if (!isTitleValid) {
+    newWorkTitleInput.style.border = "1px solid red";
     return;
   }
 

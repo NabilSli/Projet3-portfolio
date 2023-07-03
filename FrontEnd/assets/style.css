@@ -394,6 +394,11 @@ footer nav ul {
   font-weight: 500;
 }
 
+#errorMessage {
+  display: none;
+  color: red;
+}
+
 /**** modal ****/
 .editorMode {
   display: flex;
