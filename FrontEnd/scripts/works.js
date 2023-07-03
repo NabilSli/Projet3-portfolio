@@ -261,6 +261,12 @@ function setSubmbitBtnStatus() {
   } else {
     modalValidationBtn.disabled = true;
   }
+
+  if (!isCategoryValid && !isTitleValid && !isImageValid) {
+    let errorMessage = document.createElement("p");
+    errorMessage.innerText = "un champs est mal rempli";
+    workAddition.appendChild(errorMessage);
+  }
 }
 
 let isImageValid = false;
@@ -316,18 +322,7 @@ addWorkForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  if (!isCategoryValid) {
-    uploadSelect.style.border = "1px solid red";
-    return;
-  }
-
-  if (!isImageValid) {
-    uploadedImgBox.style.border = "1px solid red";
-    return;
-  }
-
-  if (!isTitleValid) {
-    newWorkTitleInput.style.border = "1px solid red";
+  if (!isCategoryValid && !isTitleValid && !isImageValid) {
     return;
   }
 
