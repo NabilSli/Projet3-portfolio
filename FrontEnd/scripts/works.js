@@ -3,6 +3,7 @@ let works = null;
 let categories = null;
 let idToken = sessionStorage.getItem("token");
 
+const logout = document.getElementById("logout");
 const loging = document.getElementById("loging");
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
@@ -38,11 +39,24 @@ if (
   editionModeBand.style.display = "none";
 } else {
   editionModeBand.style.display = "flex";
-  loging.innerText = "logout";
+  loging.style.display = "none";
+  logout.style.display = "flex";
   for (modificationButton of editionModeButtons) {
     modificationButton.style.display = "flex";
   }
 }
+console.log(sessionStorage.getItem("token"));
+
+logout.addEventListener("click", () => {
+  delete window.sessionStorage.token;
+  console.log(sessionStorage.getItem("token"));
+  editionModeBand.style.display = "none";
+  loging.style.display = "flex";
+  logout.style.display = "none";
+  for (modificationButton of editionModeButtons) {
+    modificationButton.style.display = "none";
+  }
+});
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
