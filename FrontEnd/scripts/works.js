@@ -264,15 +264,18 @@ function setSubmbitBtnStatus() {
     modalValidationBtn.disabled = true;
   }
 
+  const errorMessage = document.getElementById("modalErrorMessage");
   if (!isCategoryValid && !isTitleValid && !isImageValid) {
-    let errorMessage = document.createElement("p");
     errorMessage.innerText = "un champs est mal rempli";
+    errorMessage.style.color = "red";
     workAddition.appendChild(errorMessage);
+  } else {
+    errorMessage.innerText = "";
   }
 }
 
 let isImageValid = false;
-modalAddWorkInputBtn.addEventListener("change", (event) => {
+modalAddWorkInputBtn.addEventListener("input", (event) => {
   const currentSize = modalAddWorkInputBtn.files.item(0).size;
   if (currentSize === 0 || currentSize > 4000000) {
     uploadedImgBox.style.border = "1px solid red";
@@ -286,7 +289,7 @@ modalAddWorkInputBtn.addEventListener("change", (event) => {
 });
 
 let isTitleValid = false;
-newWorkTitleInput.addEventListener("change", (event) => {
+newWorkTitleInput.addEventListener("input", (event) => {
   if (event.target.value === "") {
     newWorkTitleInput.style.border = "1px solid red";
     isTitleValid = false;
@@ -299,7 +302,7 @@ newWorkTitleInput.addEventListener("change", (event) => {
 });
 
 let isCategoryValid = false;
-uploadSelect.addEventListener("change", (event) => {
+uploadSelect.addEventListener("input", (event) => {
   if (event.target.value === "") {
     uploadSelect.style.border = "1px solid red";
     isCategoryValid = false;
