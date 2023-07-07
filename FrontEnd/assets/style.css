@@ -220,6 +220,10 @@ li:hover {
   margin: auto;
 }
 
+#logout {
+  display: none;
+}
+
 #introduction {
   display: flex;
   align-items: center;
@@ -392,6 +396,11 @@ footer nav ul {
 #forgottenPassword {
   color: var(--main-black);
   font-weight: 500;
+}
+
+#errorMessage {
+  display: none;
+  color: red;
 }
 
 /**** modal ****/
@@ -584,6 +593,10 @@ footer nav ul {
 }
 
 #galleryModal figure a:hover {
+  cursor: pointer;
+}
+
+#btnDeleteAll:hover {
   cursor: pointer;
 }
 

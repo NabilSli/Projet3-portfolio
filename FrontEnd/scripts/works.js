@@ -3,6 +3,8 @@ let works = null;
 let categories = null;
 let idToken = sessionStorage.getItem("token");
 
+const logout = document.getElementById("logout");
+const loging = document.getElementById("loging");
 const buttonTous = document.getElementById("btnTous");
 const buttonObject = document.getElementById("btnObjets");
 const buttonAppartements = document.getElementById("btnAppartements");
@@ -37,10 +39,22 @@ if (
   editionModeBand.style.display = "none";
 } else {
   editionModeBand.style.display = "flex";
+  loging.style.display = "none";
+  logout.style.display = "flex";
   for (modificationButton of editionModeButtons) {
     modificationButton.style.display = "flex";
   }
 }
+
+logout.addEventListener("click", () => {
+  delete window.sessionStorage.token;
+  editionModeBand.style.display = "none";
+  loging.style.display = "flex";
+  logout.style.display = "none";
+  for (modificationButton of editionModeButtons) {
+    modificationButton.style.display = "none";
+  }
+});
 
 // NOTE: display all the works in the gallery dynamically
 // NOTE: async function waits for the response of fetch before resuming
@@ -261,10 +275,19 @@ function setSubmbitBtnStatus() {
   } else {
     modalValidationBtn.disabled = true;
   }
+
+  const errorMessage = document.getElementById("modalErrorMessage");
+  if (!isCategoryValid && !isTitleValid && !isImageValid) {
+    errorMessage.innerText = "un champs est mal rempli";
+    errorMessage.style.color = "red";
+    workAddition.appendChild(errorMessage);
+  } else {
+    errorMessage.innerText = "";
+  }
 }
 
 let isImageValid = false;
-modalAddWorkInputBtn.addEventListener("change", (event) => {
+modalAddWorkInputBtn.addEventListener("input", (event) => {
   const currentSize = modalAddWorkInputBtn.files.item(0).size;
   if (currentSize === 0 || currentSize > 4000000) {
     uploadedImgBox.style.border = "1px solid red";
@@ -278,7 +301,7 @@ modalAddWorkInputBtn.addEventListener("change", (event) => {
 });
 
 let isTitleValid = false;
-newWorkTitleInput.addEventListener("change", (event) => {
+newWorkTitleInput.addEventListener("input", (event) => {
   if (event.target.value === "") {
     newWorkTitleInput.style.border = "1px solid red";
     isTitleValid = false;
@@ -291,7 +314,7 @@ newWorkTitleInput.addEventListener("change", (event) => {
 });
 
 let isCategoryValid = false;
-uploadSelect.addEventListener("change", (event) => {
+uploadSelect.addEventListener("input", (event) => {
   if (event.target.value === "") {
     uploadSelect.style.border = "1px solid red";
     isCategoryValid = false;
