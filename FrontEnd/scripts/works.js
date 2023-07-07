@@ -45,11 +45,9 @@ if (
     modificationButton.style.display = "flex";
   }
 }
-console.log(sessionStorage.getItem("token"));
 
 logout.addEventListener("click", () => {
   delete window.sessionStorage.token;
-  console.log(sessionStorage.getItem("token"));
   editionModeBand.style.display = "none";
   loging.style.display = "flex";
   logout.style.display = "none";
